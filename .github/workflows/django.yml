@@ -24,9 +24,8 @@ jobs:
     - name: Install Dependencies
       run: |
         cd backend
-        pwd
         python -m pip install --upgrade pip
     - name: Run Tests
       run: |
-        pwd
+        cd backend/src/
         python manage.py test
