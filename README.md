@@ -8,7 +8,7 @@
 
 
 ### * branch 구성
-|branch|역할 |
+|branch|역할|
 |:---:|:---:|
 |`master`|메인|
 |`develop`|테스트 용|
