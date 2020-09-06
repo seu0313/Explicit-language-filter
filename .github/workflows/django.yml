@@ -21,17 +21,14 @@ jobs:
       uses: actions/setup-python@v2
       with:
         python-version: ${{ matrix.python-version }}
-        
-    - name: env settings
-      env:
-        DJANGO_SECRET_KEY: ${{ secrets.SECRET_KEY }}
-      run: echo $DJANGO_SECRET_KEY
     - name: Install Dependencies
       run: |
         cd backend
         python -m pip install --upgrade pip
         pip install -r requirements.txt
     - name: Run Tests
+      env:
+        DJANGO_SECRET_KEY: ${{ secrets.SECRET_KEY }}
       run: |
         cd backend/src/
         python manage.py test
