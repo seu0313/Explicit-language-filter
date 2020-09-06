@@ -6,7 +6,6 @@
 
 > 음성 비속어 필터
 
-
 ### * branch 구성
 |branch|역할|
 |:---:|:---:|
@@ -14,4 +13,13 @@
 |`develop`|테스트 용|
 |`eieo`|개발 용|
 
-----
+---
+
+### * commit rules
+~~~zsh
+    git commit -m 'Add - 내용 (#)' : 새로운 것을 추가
+    git commit -m 'Update - 내용 (#)' : 기존에서 기능 추가
+    git commit -m 'Fix - 내용 (#)' : 고침
+    git commit -m 'Modify - 내용 (#)' : 수정
+~~~
+---
