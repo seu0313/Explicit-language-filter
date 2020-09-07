@@ -1,11 +1,11 @@
 ---
 name: Bug report
 about: 버그 발생!
-title: "[BUG]"
+title: "[Bug]"
 labels: bug
 assignees: ''
 
 ---
 
-# 버그 내용
+### 버그 내용
 -
