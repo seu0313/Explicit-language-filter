@@ -1,6 +1,7 @@
 # Explicit-language-filter
 
 ![issue badge](https://img.shields.io/badge/Python-3.7.6-blue)
+![issue badge](https://img.shields.io/badge/React-16.13.1-9cf)
 ![issue badge](https://img.shields.io/badge/Django-3.1.1-green)
 ![issue badge](https://img.shields.io/badge/Keras-2.3.1-red)
 
@@ -10,8 +11,7 @@
 |branch|역할|
 |:---:|:---:|
 |`master`|메인|
-|`develop`|테스트 용|
-|`eieo`|개발 용|
+|`develop`|개발|
 
 ---
 
