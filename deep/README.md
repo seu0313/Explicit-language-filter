@@ -18,4 +18,4 @@ Nexon Developer Conference에서 발표한 내용을 참고하여 CNN을 활용�
 
 ### 구현 위키
 
-[# 구현 위키]()
+[# 구현 위키](https://github.com/seu0313/Explicit-language-filter/wiki/charCNN,-VDCNN-%EC%9D%B4%EB%A1%A0-%EC%A0%95%EB%A6%AC)
