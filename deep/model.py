@@ -1,244 +1,127 @@
-from keras.callbacks import ModelCheckpoint, EarlyStopping
-from keras.models import Model, load_model, Sequential
-from keras.layers import Dense, Activation, Dropout, Input, Masking, Add, TimeDistributed
-from keras.layers import Conv1D, BatchNormalization, Reshape, MaxPooling1D, Embedding
-from keras.optimizers import Adam, SGD, RMSprop
+from keras.models import Model
+from keras.layers import Input, Embedding, Conv1D, BatchNormalization, Activation, Add
+from keras.layers import MaxPooling1D, Dense, Flatten
 
-from keras.engine import Layer, InputSpec
-from keras.layers import Flatten
-import tensorflow as tf
+from keras.engine.topology import get_source_inputs
+from k_max_pooling import *
 
-class KMaxPooling(Layer):
-    """
-    K-max pooling layer that extracts the k-highest activations from a sequence (2nd dimension).
-    TensorFlow backend.
-    """
-    def __init__(self, k=1, **kwargs):
-        super().__init__(**kwargs)
-        self.input_spec = InputSpec(ndim=3)
-        self.k = k
+# CharCNN 모델
+class CharCNN:
+    def __init__(self):
+        pass
 
-    def compute_output_shape(self, input_shape):
-        return (input_shape[0], (input_shape[2] * self.k))
+# VDCNN 모델
+class VDCNN:
+    def __init__(self):
+        pass
 
-    def call(self, inputs):
-        
-        # swap last two dimensions since top_k will be applied along the last dimension
-        shifted_input = tf.transpose(inputs, [0, 2, 1])
-        
-        # extract top_k, returns two tensors [values, indices]
-        top_k = tf.nn.top_k(shifted_input, k=self.k, sorted=True, name=None)[0]
-        
-        # return flattened output
-        return Flatten()(top_k)
+    def base_block(self, inputs, filters, kernel_size=3, use_bias=False, shortcut=False):
+        conv_1 = Conv1D(filters=filters, kernel_size=kernel_size, strides=1, padding='same')(inputs)
+        batch_norm_1 = BatchNormalization()(conv_1)
+        activate_relu = Activation('relu')(batch_norm_1)
+        conv_2 = Conv1D(filters=filters, kernel_size=kernel_size, strides=1, padding='same')(activate_relu)
+        output = BatchNormalization()(conv_2)
 
-def CharCNN_model(input_shape):
-    '''
-        charCNN을 활용한 모델
-        input_shape: 입력 자모 데이터
-        
-        return: 설계된 모델을 반환함
-    '''
+        if shortcut:
+            output = Add()([output, inputs])
+        output = Activation('relu')(output)
 
-    X_input = Input(shape=input_shape)
+        return output
 
-    X = None
+    def conv_block(self, inputs, filters, kernel_size=3, use_bias=False, shortcut=False, pool_type='max', sorted=True):
+        conv_1 = Conv1D(filters=filters, kernel_size=kernel_size, strides=1, padding='same')(inputs)
+        batch_norm_1 = BatchNormalization()(conv_1)
+        activate_relu = Activation('relu')(batch_norm_1)
+        conv_2 = Conv1D(filters=filters, kernel_size=kernel_size, strides=1, padding='same')(activate_relu)
+        batch_norm_2 = BatchNormalization()(conv_2)
 
-    model = Model(input_shape=X_input, outputs=X)
+        if shortcut:
+            # shortcut Conv1D 작업 및 배치 정규화
+            shortcut_conv = Conv1D(filters=filters, kernel_size=1, strides=2)(inputs)
+            shortcut_batch_norm = BatchNormalization()(shortcut_conv)
+            
+            # Case. max_pooling 하는 경우, k-max pooling 하는 경우 등.
+            output = self.down_sample(batch_norm_2, pool_type=pool_type, sorted=sorted)
+            output = Add()([output, shortcut_batch_norm])
+            output = Activation('relu')(output)
+        else:  # 마지막 k-max을 진행하는 경우 shortcut을 하지 않고 k-max pooling 진행
+            output = Activation('relu')(batch_norm_2)
+            output = self.down_sample(output, pool_type=pool_type, sorted=sorted)
 
-    return model
+        if pool_type is not None:
+            output = Conv1D(filters=2*filters, kernel_size=1, strides=1, padding='same')(output)
+            output = BatchNormalization()(output)
 
+        return output
 
-def VDCNN_model(input_shape):
-    '''
-        ## 아직 미완성 (오류 많음)
-        charCNN을 매우 깊게 적용한 모델
-        input_shape: 입력 자모 데이터
-        
-        return: 설계된 모델을 반환함
-    '''
+    def down_sample(self, inputs, pool_type='max', sorted=True):
+        if pool_type == 'max':
+            output = MaxPooling1D(pool_size=3, strides=2, padding='same')(inputs)
+        elif pool_type == 'k_max':
+            k = int(inputs._keras_shape[1]/2)
+            output = KMaxPooling(k=k, sorted=sorted)(inputs)
+        elif pool_type == 'conv':
+            output = Conv1D(filters=inputs._keras_shape[-1], kernel_size=3, strides=2, padding='same')(inputs)
+            output = BatchNormalization()(output)
+        elif pool_type is None:
+            output = inputs
+        else:
+            raise ValueError('지원하지 않는 풀링 타입')
 
-    # Parameters
-    # input_size = len(input_shape)
-    input_size = 1024
-    vocab_size = 69
-    embedding_size = 69
-    conv_layer = [
-        [64, 7, 3],
-        [128, 7, 3],
-        [256, 3, 3],
-        [512, 3, 3]
-    ]
+        return output
 
-    fully_connected_layers = [1024, 1024]
-    num_of_classes = 4
-    dropout_point = 0.5
+    def create_model(self, num_of_classes, sequence_length=1024, embedding_dim=16, shortcut=False, pool_type='max', sorted=True, use_bias=False, input_tensor=None):
+        # num_conv_blocks = (1, 1, 1, 1)  # depth 9
+        # num_conv_blocks = (2, 2, 2, 2)  # depth 17
+        # num_conv_blocks = (5, 5, 2, 2)  # depth 29
+        num_conv_blocks = (8, 8, 5, 3)  # depth 49
 
-    # 입력
-    embedding_layer = Embedding(vocab_size+1, embedding_size, input_length=input_size)
+        inputs = Input(shape=(sequence_length, ))
+        embedded_chars = Embedding(input_dim=sequence_length, output_dim=embedding_dim)(inputs)
 
-    X_input = Input(shape = input_shape)
-    X = embedding_layer(X_input)
+        # temp convolution
+        output = Conv1D(filters=64, kernel_size=3, strides=1, padding='same')(embedded_chars)
 
-    # Conv layer
-    cnt = 0
-    for filter_num, filter_size, stride_size in conv_layer:
-        Y = Conv1D(filter_num, kernel_size=filter_size, strides=stride_size)(X)
-        Y = BatchNormalization()(Y)
-        Y = Activation('relu')(Y)
+        # Convolutional Block 64
+        for _ in range(num_conv_blocks[0] - 1):
+            output = self.base_block(output, filters=64, kernel_size=3, use_bias=use_bias, shortcut=shortcut)
+        output = self.conv_block(output, filters=64, kernel_size=3, use_bias=use_bias, shortcut=shortcut, pool_type=pool_type, sorted=sorted)
 
-        Y = Conv1D(filter_num, kernel_size=filter_size, strides=stride_size)(Y)
-        Y = BatchNormalization()(Y)
-        Y = Activation('relu')(Y)
+        # Convolutional Block 128
+        for _ in range(num_conv_blocks[1] - 1):
+            output = self.base_block(output, filters=128, kernel_size=3, use_bias=use_bias, shortcut=shortcut)
+        output = self.conv_block(output, filters=128, kernel_size=3, use_bias=use_bias, shortcut=shortcut, pool_type=pool_type, sorted=sorted)
 
-        X = Add()([X, Y])  # short connection
+        # Convolutional Block 256
+        for _ in range(num_conv_blocks[2] - 1):
+            output = self.base_block(output, filters=256, kernel_size=3, use_bias=use_bias, shortcut=shortcut)
+        output = self.conv_block(output, filters=256, kernel_size=3, use_bias=use_bias, shortcut=shortcut, pool_type=pool_type, sorted=sorted)
 
-        Y = Conv1D(filter_num, kernel_size=filter_size, strides=stride_size)(X)
-        Y = BatchNormalization()(Y)
-        Y = Activation('relu')(Y)
+        # Convolutional Block 512
+        for _ in range(num_conv_blocks[3] - 1):
+            output = self.base_block(output, filters=512, kernel_size=3, use_bias=use_bias, shortcut=shortcut)
+        output = self.conv_block(output, filters=512, kernel_size=3, use_bias=use_bias, shortcut=False, pool_type=None)
 
-        Y = Conv1D(filter_num, kernel_size=filter_size, strides=stride_size)(Y)
-        Y = BatchNormalization()(Y)
-        Y = Activation('relu')(Y)
+        # K-max pooling (k=8)
+        output = KMaxPooling(k=8, sorted=True)(output)
+        output = Flatten()(output)
 
-        if cnt != len(conv_layer)-1:
-            # Y = MaxPooling1D(pool_size=2, strides=2)
-            X = Add()([X, Y])  # short connection
-        cnt += 1
-    
-    X = Flatten()(Y)
+        # Dense Layers
+        output = Dense(2048, activation='relu')(output)
+        output = Dense(2048, activation='relu')(output)
+        output = Dense(num_of_classes, activation='softmax')(output)
 
-    # k-max pooling (k=8)
-    X = KMaxPooling(k=8)(X)
+        if input_tensor is not None:
+            inputs = get_source_inputs(input_tensor)
+        else:
+            inputs = inputs
 
-    # Fully connected layers
-    for dense_size in fully_connected_layers:
-        X = Dense(dense_size, activation='relu')(X)
-        X = Dropout(dropout_point)(X)
+        # Model 생성
+        model = Model(inputs=inputs, outputs=output)
 
-    # Output layer
-    X_output = Dense(num_of_classes, activation='softmax')
-
-    '''
-    # 레이어
-    X = Conv1D(64, kernel_size=16, stride=1)(X_input)
-
-    # Convolution block I
-    Y = Conv1D(64, kernel_size=1, stride=1)(X)
-    Y = BatchNormalization()(Y)
-    Y = Dense(1, activation='relu')
-
-    Y = Conv1D(64, kernel_size=1, stride=1)(Y)
-    Y = BatchNormalization()(Y)
-    Y = Dense(1, activation='relu')
-
-    X = Add()([X, Y])  # short connection
-
-    Y = Conv1D(64, kernel_size=1, stride=1)(X)
-    Y = BatchNormalization()(Y)
-    Y = Dense(1, activation='relu')
-
-    Y = Conv1D(64, kernel_size=1, stride=1)(Y)
-    Y = BatchNormalization()(Y)
-    Y = Dense(1, activation='relu')
-
-    # Pooling /2
-    Y = MaxPooling1D(pool_size=64//2)
-
-    X = Add()([X, Y])  # short connection
-
-    # Convolution block II
-    Y = Conv1D(128, kernel_size=1, stride=1)(X)
-    Y = BatchNormalization()(Y)
-    Y = Dense(1, activation='relu')
-
-    Y = Conv1D(128, kernel_size=1, stride=1)(Y)
-    Y = BatchNormalization()(Y)
-    Y = Dense(1, activation='relu')
-
-    X = Add()([X, Y])  # short connection
-
-    Y = Conv1D(128, kernel_size=1, stride=1)(X)
-    Y = BatchNormalization()(Y)
-    Y = Dense(1, activation='relu')
-
-    Y = Conv1D(128, kernel_size=1, stride=1)(Y)
-    Y = BatchNormalization()(Y)
-    Y = Dense(1, activation='relu')
-
-    # Pooling /2
-    Y = MaxPooling1D(pool_size=64//2)
-
-    X = Add()([X, Y])  # short connection
-
-    # Convolution block III
-    Y = Conv1D(256, kernel_size=1, stride=1)(X)
-    Y = BatchNormalization()(Y)
-    Y = Dense(1, activation='relu')
-
-    Y = Conv1D(256, kernel_size=1, stride=1)(Y)
-    Y = BatchNormalization()(Y)
-    Y = Dense(1, activation='relu')
-
-    X = Add()([X, Y])  # short connection
-
-    Y = Conv1D(256, kernel_size=1, stride=1)(X)
-    Y = BatchNormalization()(Y)
-    Y = Dense(1, activation='relu')
-
-    Y = Conv1D(256, kernel_size=1, stride=1)(Y)
-    Y = BatchNormalization()(Y)
-    Y = Dense(1, activation='relu')
-
-    # Pooling /2
-    Y = MaxPooling1D(pool_size=64//2)
-
-    X = Add()([X, Y])  # short connection
-
-    # Convolution block IV
-    Y = Conv1D(512, kernel_size=1, stride=1)(X)
-    Y = BatchNormalization()(Y)
-    Y = Dense(1, activation='relu')
-
-    Y = Conv1D(512, kernel_size=1, stride=1)(Y)
-    Y = BatchNormalization()(Y)
-    Y = Dense(1, activation='relu')
-
-    X = Add()([X, Y])  # short connection
-
-    X = Conv1D(512, kernel_size=1, stride=1)(X)
-    X = BatchNormalization()(X)
-    X = Dense(1, activation='relu')
-
-    X = Conv1D(512, kernel_size=1, stride=1)(X)
-    X = BatchNormalization()(X)
-    X = Dense(1, activation='relu')
-
-    # k-max pooling (k=8)
-    X = KMaxPooling(k=8)(X)
-
-    # FC
-    X = Dense((4096, 2048), activation='relu')
-    X = Dense((2048, 2048), activation='relu')
-    
-    n = None # 임시
-    X = TimeDistributed(Dense(n, activation = "softmax"))(X)
-    '''
-
-    # 생성
-    model = Model(inputs = X_input, outputs = X_output)
-
-
-    return model
+        return model
 
 if __name__ == "__main__":
-
-    optimizer = 'adam'
-    loss = 'categorical_crossentropy'
-
-
-    # model = VDCNN_model((1024,))
-    model = CharCNN_model(input_shape=(5511, 101))
-    model.compile(optimizer=optimizer, loss=loss, metrics=['accuracy'])
+    vdcnn = VDCNN()
+    model = vdcnn.create_model(10, shortcut=True, pool_type='max')
     model.summary()
-    
