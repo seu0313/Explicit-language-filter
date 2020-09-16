@@ -71,10 +71,10 @@ class VDCNN:
         return output
 
     def create_model(self, num_of_classes, sequence_length=1024, embedding_dim=16, shortcut=False, pool_type='max', sorted=True, use_bias=False, input_tensor=None):
-        # num_conv_blocks = (1, 1, 1, 1)  # depth 9
+        num_conv_blocks = (1, 1, 1, 1)  # depth 9
         # num_conv_blocks = (2, 2, 2, 2)  # depth 17
         # num_conv_blocks = (5, 5, 2, 2)  # depth 29
-        num_conv_blocks = (8, 8, 5, 3)  # depth 49
+        # num_conv_blocks = (8, 8, 5, 3)  # depth 49
 
         inputs = Input(shape=(sequence_length, ))
         embedded_chars = Embedding(input_dim=sequence_length, output_dim=embedding_dim)(inputs)
@@ -123,5 +123,5 @@ class VDCNN:
 
 if __name__ == "__main__":
     vdcnn = VDCNN()
-    model = vdcnn.create_model(10, shortcut=True, pool_type='max')
+    model = vdcnn.create_model(10, shortcut=False, pool_type='max')
     model.summary()
