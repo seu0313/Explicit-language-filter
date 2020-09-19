@@ -4,12 +4,13 @@ from django.urls import path, include
 from django.conf.urls.static import static
 
 from rest_framework import routers
-from api import views
+from api.views import UserViewSet, GroupViewSet
+from deep.views import DeepViewSet
 
 router = routers.DefaultRouter()
-router.register('users', views.UserViewSet)
-router.register('groups', views.GroupViewSet)
-router.register('deeps', views.DeepViewSet)
+router.register('users', UserViewSet)
+router.register('groups', GroupViewSet)
+router.register('deeps', DeepViewSet)
 
 urlpatterns = [
     path('admin/', admin.site.urls),

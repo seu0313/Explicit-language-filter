@@ -1,14 +1,11 @@
 from django.shortcuts import render
 from django.contrib.auth.models import User, Group
-from rest_framework import viewsets
-from rest_framework import permissions, status
-from rest_framework.parsers import FileUploadParser
+from rest_framework import viewsets, permissions, status
+from rest_framework.parsers import FileUploadParser, ParseError
 from rest_framework.response import Response
-from rest_framework.parsers import ParseError
-from api.serializers import UserSerializer, GroupSerializer, DeepSerializer
 
-# Deep Apps
-from deep.models import Deep
+from api.serializers import UserSerializer, GroupSerializer
+
 
 # User
 class UserViewSet(viewsets.ModelViewSet):
@@ -23,10 +20,3 @@ class GroupViewSet(viewsets.ModelViewSet):
     serializer_class = GroupSerializer
     permission_classes = [permissions.IsAuthenticated]
 
-
-# Deep File
-class DeepViewSet(viewsets.ModelViewSet):
-    queryset = Deep.objects.all()
-    serializer_class = DeepSerializer
-    # parser_classes = (FileUploadParser, )
-    permission_classes = [permissions.IsAuthenticated]
