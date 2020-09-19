@@ -15,11 +15,13 @@
 
 ---
 
-### * commit rules
+### * commit rules (Since 2020.09.19)
 ~~~zsh
-    git commit -m 'Add - 내용 (#)' : 새로운 것을 추가
-    git commit -m 'Update - 내용 (#)' : 기존에서 기능 추가
-    git commit -m 'Fix - 내용 (#)' : 고침
-    git commit -m 'Modify - 내용 (#)' : 수정
+    git commit -m 'Feat - 내용 (#)' : 새로운 기능 추가
+    git commit -m 'Refact - 내용 (#)' : 기능, 버그 수정이 아닌 수정
+    git commit -m 'Update - 내용 (#)' : 다 갈아 엎음
+    git commit -m 'Fix - 내용 (#)' : 버그 수정
+    git commit -m 'CI - 내용 (#)' : CI 설정 파일, 스크립트 수정
+    git commit -m 'Doc - 내용 (#)' : Readme와 같은 문서 추가 및 수정
 ~~~
 ---
