@@ -10,7 +10,7 @@ class CharCNN:
     def __init__(self):
         pass
 
-# VDCNN 모델
+# VDCNN 모델 (초기 모델)
 class VDCNN:
     def __init__(self):
         pass
