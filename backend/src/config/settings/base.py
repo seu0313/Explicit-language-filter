@@ -5,25 +5,6 @@ from django.core.exceptions import ImproperlyConfigured
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-# SECURITY WARNING: keep the secret key used in production secret!
-
-# json을 활용하는 방식
-# SECRETS_DIR = os.path.join(BASE_DIR, 'secrets')
-# BASE_JSON = os.path.join(SECRETS_DIR, 'base.json')
-# KEY_FILE = json.loads(open(BASE_JSON).read())
-# SECRET_KEY = KEY_FILE['django']['SECRET_KEY']
-
-# 환경 변수 활용
-def get_env_variable(var_name):
-  """환경 변수를 가져오거나 예외를 반환한다."""
-  try:
-    return os.environ[var_name]
-  except KeyError:
-    error_msg = "Set the {} environment variable".format(var_name)
-    raise ImproperlyConfigured(error_msg)
-
-SECRET_KEY = get_env_variable("DJANGO_SECRET_KEY")
-
 # Application definition
 
 DJANGO_APPS = [
@@ -41,7 +22,8 @@ THIRD_PARTY_APPS = [
 ]
 
 SERVICE_APPS = [
-
+    'api',
+    'deep',
 ]
 
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + SERVICE_APPS
@@ -119,3 +101,13 @@ STATIC_URL = '/static/'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# rest_framework
+REST_FRAMEWORK = {
+    # 'DEFAULT_PARSER_CLASSES': [
+    #     'rest_framework.parsers.JSONParser',
+    # ],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
+    'PAGE_SIZE': 10,
+}
+
