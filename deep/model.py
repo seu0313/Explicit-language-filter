@@ -3,7 +3,7 @@ from keras.layers import Input, Embedding, Conv1D, BatchNormalization, Activatio
 from keras.layers import MaxPooling1D, Dense, Flatten
 
 from keras.engine.topology import get_source_inputs
-from k_max_pooling import *
+from k_max_pooling import KMaxPooling, KMaxPoolingNotSorted
 
 # CharCNN 모델
 class CharCNN:
