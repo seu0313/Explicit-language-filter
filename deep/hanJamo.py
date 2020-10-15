@@ -44,6 +44,7 @@ def hang_to_jamo(string, end_char='_'):
         result.append(final)
 
     return ''.join(result)
+    # return result
 
 def jamo_to_hang(string):
     result = ""
@@ -68,7 +69,7 @@ if __name__ == "__main__":
     # print(0xD7A3)  # 55203
     # print(0xAC00)  # 44032
 
-    text = '안녕하세요 제? 이름은......'
+    text = input()
     jamo = hang_to_jamo(text)   # 'ㅇㅏㄴㄴㅕㅇㅎㅏ_ㅅㅔ_ㅇㅛ_ ㅈㅔ_ ㅇㅣ_ㄹㅡㅁㅇㅡㄴ'
 
     pprint(jamo)
