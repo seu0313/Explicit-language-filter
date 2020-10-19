@@ -1,80 +1,91 @@
-import React, {useState} from 'react'
-import {Button, TextField } from '@material-ui/core'
-import axios from 'axios'
-import { makeStyles } from '@material-ui/core/styles';
-import DeleteIcon from '@material-ui/icons/Delete';
+import React, { Component } from 'react'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
-import KeyboardVoiceIcon from '@material-ui/icons/KeyboardVoice';
-import Icon from '@material-ui/core/Icon';
-import SaveIcon from '@material-ui/icons/Save';
+import {Button, TextField } from '@material-ui/core'
+import { makeStyles } from '@material-ui/core/styles';
+import axios from 'axios'
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-        '& > *': {
-          margin: theme.spacing(1),
-          width: '25ch',
-        },
-    },
-    button: {
-      margin: theme.spacing(1),
-    },
-  }));
-  
+// const useStyles = makeStyles((theme) => ({
+//     root: {
+//         '& > *': {
+//           margin: theme.spacing(1),
+//           width: '25ch',
+//         },
+//     },
+//     button: {
+//       margin: theme.spacing(1),
+//     },
+// }));
 
-const FileUploader = () => {
-    const classes = useStyles();
-    const [title, setTitle] = useState("");
-    const [video, setVideo] = useState(undefined);
-    const [fileName, setFileName] = useState("UPLOAD FILE")
-
-    const handleChange = (e) => {
-        setTitle(e.target.value)
+class FileUploader extends Component {
+    constructor(props){
+        super(props)
+        this.state = {
+            title: "",
+            video: undefined,
+            fileName: "UPLOAD FILE",
+        }
+    }
+    
+    handleTitleChange = (e) => {
+        this.setState({title: e.target.value})
     }
 
-    const handleFileChange = (e) => {
-        setVideo(e.target.files[0])
-        setFileName(e.target.files[0]['name'])
+    handleFileChange = (e) => {
+        this.setState({
+            video: e.target.files[0],
+            fileName: e.target.files[0]['name']
+        })
     }
 
-    const fileSubmit = async (e) => {
+    // 파일 전송 Form
+    fileSubmit = async (e) => {
         e.preventDefault();
-        let form_data = new FormData();
-        form_data.append('title', title)
-        form_data.append('video_file', video)
+        const form_data = new FormData();
+        form_data.append('title', this.state.title)
+        form_data.append('video_file', this.state.video)
     
         let url = 'http://localhost:8000/deeps/';
 
         await axios.post(url, form_data, {
                 headers: {
                     'content-type': "multipart/form-data"
-                }})
-                .then(res => {
-                    console.log(res.data);
-                    setTitle("")
-                    setVideo(undefined)
-                    setFileName("UPLOAD FILE")
+                }
+            })
+            .then(res => {
+                console.log(res.data);
+                this.setState({
+                    title: "",
+                    video: undefined,
+                    fileName: "UPLOAD FILE"
                 })
-                .catch(err => console.log(err))
+                this.props._renderData()
+
+                console.log(this.state.fileName + this.state.title, this.state.video)
+            })
+            .catch(err => console.log(err))
     }
 
-    return (
-        <div>
-            <form method='POST' onSubmit={fileSubmit}>
-                <TextField id="outlined-basic" label="Title" variant="outlined" type='text' placeholder='Please input title' fullWidth value={title} onChange={handleChange}/>
-                <Button variant="contained" component="label">
-                    {fileName}
-                    <input type="file" style={{ display: "none" }} accept='video/mp4, video/avi, video/mov' name="video" onChange={handleFileChange} required/>
-                </Button>
-                <Button variant="contained"
-                        color="default"
-                        className={classes.button}
-                        startIcon={<CloudUploadIcon />}
-                        type='submit'>
-                    upload
-                </Button>
-            </form>
-        </div>
-    )
+    render() {
+        // const classes = useStyles();
+        return (
+            <div>
+                <form method='POST' onSubmit={this.fileSubmit}>
+                    <TextField id="outlined-basic" label="Title" variant="outlined" type='text' placeholder='Please input title' fullWidth value={this.state.title} onChange={this.handleTitleChange}/>
+                    <Button variant="contained" component="label">
+                        {this.state.fileName}
+                        <input type="file" style={{ display: "none" }} accept='video/mp4, video/avi, video/mov' name="video" onChange={this.handleFileChange} required/>
+                    </Button>
+                    <Button variant="contained"
+                            color="default"
+                            // className={classes.button}
+                            startIcon={<CloudUploadIcon />}
+                            type='submit'>
+                        upload
+                    </Button>
+                </form>
+            </div>
+        )
+    }
 }
 
-export default FileUploader;
+export default FileUploader
