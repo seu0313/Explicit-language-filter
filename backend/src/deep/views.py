@@ -25,8 +25,8 @@ def Deep_list(request):
     else:
         video_file = request.data['video_file']
         print(type(video_file))
-        request.data['video_file'] = None
-        request.data['title'] = '안녕하세요'
+        # request.data['video_file'] = None
+        # request.data['title'] = '안녕하세요'
  
         serializer = DeepSerializer(data=request.data)
         if serializer.is_valid():

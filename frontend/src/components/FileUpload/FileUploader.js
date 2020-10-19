@@ -46,7 +46,7 @@ class FileUploader extends Component {
         form_data.append('title', this.state.title)
         form_data.append('video_file', this.state.video)
     
-        let url = 'http://localhost:8000/deeps/';
+        let url = 'http://localhost:8000/deep/';
 
         await axios.post(url, form_data, {
                 headers: {

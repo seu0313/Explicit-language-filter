@@ -3,6 +3,9 @@ import axios from 'axios'
 import { FileUploader } from '../components/FileUpload'
 import { Loading } from '../components/Loading'
 import { createStyles } from '@material-ui/core';
+import { Player } from 'video-react'
+import 'video-react/dist/video-react.css'
+// import "node_modules/video-react/dist/video-react.css";
 
 axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
 axios.defaults.xsrfCookieName = "csrftoken";
@@ -58,7 +61,7 @@ class Main extends Component {
                 <hr/>
                 <div style={styles.sectionStyle}>
                     {deeps.map((deep) => (
-                        <div key={deep.id}>{deep.video_file}</div>
+                        <Player key={deep.id} fluid={false} width={400} height={300} src={deep.video_file}/>
                     ))}
                 </div>
             </div>
