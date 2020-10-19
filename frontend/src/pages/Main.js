@@ -22,16 +22,17 @@ class Main extends Component {
     }
 
     componentDidMount = async () => {
-        await axios.get("http://127.0.0.1:8000/deeps/")
-                .then((res) => {
-                    this.setDeeps({deeps: res.data})
-                    console.log(res.data)
-                    this.setLoading({loading: false})
-                })
-                .catch((error) => {
-                    console.log(error)
-                })
-    }
+        await axios
+            .get("http://127.0.0.1:8000/deeps/")
+            .then((res) => {
+                this.setDeeps({deeps: res.data})
+                // console.log(res.data)
+                this.setLoading({loading: false})
+            })
+            .catch((error) => {
+                console.log(error)
+            })
+}
 
     _renderData = () => {
         axios

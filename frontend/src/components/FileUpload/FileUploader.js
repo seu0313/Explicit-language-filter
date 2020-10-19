@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import {Button, TextField } from '@material-ui/core'
-import { makeStyles } from '@material-ui/core/styles';
+// import { makeStyles } from '@material-ui/core/styles';
 import axios from 'axios'
 
 // const useStyles = makeStyles((theme) => ({
@@ -31,6 +31,8 @@ class FileUploader extends Component {
     }
 
     handleFileChange = (e) => {
+        // console.log(e.target.files[0])
+        // console.log(e.target.files[0]['name'])
         this.setState({
             video: e.target.files[0],
             fileName: e.target.files[0]['name']
@@ -52,7 +54,7 @@ class FileUploader extends Component {
                 }
             })
             .then(res => {
-                console.log(res.data);
+                // console.log(res.data);
                 this.setState({
                     title: "",
                     video: undefined,
@@ -60,7 +62,7 @@ class FileUploader extends Component {
                 })
                 this.props._renderData()
 
-                console.log(this.state.fileName + this.state.title, this.state.video)
+                // console.log(this.state.fileName + this.state.title, this.state.video)
             })
             .catch(err => console.log(err))
     }
