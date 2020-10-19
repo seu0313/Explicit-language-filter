@@ -3,6 +3,7 @@ from rest_framework import viewsets, permissions, status
 from rest_framework.views import APIView
 from rest_framework.parsers import FileUploadParser, ParseError, FormParser, MultiPartParser
 from rest_framework.response import Response
+from rest_framework.decorators import api_view, parser_classes
 from deep.models import Deep
 from deep.serializers import DeepSerializer
 
@@ -14,19 +15,17 @@ class DeepViewSet(viewsets.ModelViewSet):
     # parser_classes = (FileUploadParser, )
     # permission_classes = [permissions.IsAuthenticated]
 
-# class DeepView(APIView):
-#     parser_classes = (MultiPartParser, FormParser)
-
-#     def get(self, request, *args, **kwargs):
-#         Deeps = Deep.objects.all()
-#         serializer = DeepSerializer(Deeps, many=True)
-#         return Response(serializer.data)
-
-#     def post(self, request, *args, **kwargs):
-#         Deeps_serializer = DeepSerializer(data=request.data)
-#         if Deeps_serializer.is_valid():
-#             Deeps_serializer.save()
-#             return Response(Deeps_serializer.data, status=status.HTTP_201_CREATED)
-#         else:
-#             print('error', Deeps_serializer.errors)
-#             return Response(Deeps_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+# FBV
+@api_view(['GET','POST'])
+def Deep_list(request):
+    if request.method == 'GET':
+        queryset = Deep.objects.all()
+        serializer = DeepSerializer(queryset, many=True)
+        return Response(serializer.data)
+    else:
+        serializer = DeepSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            print(serializer.data['video_file'])
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
