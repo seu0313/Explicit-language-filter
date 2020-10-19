@@ -3,6 +3,8 @@ from .base import *
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+CORS_ORIGIN_ALLOW_ALL = True
+
 # 환경 변수 활용 (배포, 개발용)
 def get_env_variable(var_name):
   """환경 변수를 가져오거나 예외를 반환한다."""
@@ -34,5 +36,3 @@ DATABASES = {
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
-
-CORS_ALLOW_ALL_ORIGINS = True

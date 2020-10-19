@@ -3,6 +3,12 @@ from .base import *
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000"
+]
+
+
 ALLOWED_HOSTS = ['127.0.0.1', 'localhost']
 
 # 환경 변수 활용 (배포용)
@@ -26,7 +32,3 @@ DATABASES = {
     }
 }
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:8080",
-    "http://127.0.0.1:9000"
-]
