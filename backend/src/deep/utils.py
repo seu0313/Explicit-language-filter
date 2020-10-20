@@ -4,7 +4,6 @@ import json
 import time
 import datetime
 import pydub
-pydub.AudioSegment.ffmpeg = "/absolute/path/to/ffmpeg"
 from datetime import timedelta
 from pydub import AudioSegment
 # from google.cloud import speech_v1p1beta1
@@ -18,7 +17,6 @@ from moviepy.editor import *
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 MEDIA_DIR = os.path.join(BASE_DIR, 'media')
-AUDIO_DIR = os.path.join(MEDIA_DIR, 'audio')
 
 def credentials():
     SECRETS_DIR = os.path.join(BASE_DIR, 'secrets/Abusive-Language-detection-30258f70228e.json')
@@ -118,22 +116,6 @@ def get_profanity():
         # 추후 추가.
     return list(profanity.split())
 
-def overlay():
-    videoClip = VideoFileClip("./video_file/video.mp4")
-    audioClip = AudioFileClip("./audio_file/result.mp3")
-
-    # audioClip = CompositeAudioClip([videoClip.audio, audioClip])
-    # videoClip.audio = audioClip
-
-    videoClip = videoClip.set_audio(audioClip)
-    videoClip.write_videofile("./processed_video.mp4", \
-        codec='libx264', 
-        audio_codec='aac', 
-        temp_audiofile='temp-audio.m4a', 
-        remove_temp=True)
-    # print(Pcolor.OKBLUE+'# 비속어 처리가 완료되었습니다.',Pcolor.ENDC)
-    # print(Pcolor.OKBLUE+'# 다음의 파일을 확인해주세요 : processed_video.mp4',Pcolor.ENDC)
-
 def create_beep(duration):
     sps = 44100
     freq_hz = 1000.0
@@ -162,7 +144,7 @@ def sample_recognize(local_file_path):
     language_code = "ko-KR"
     sample_rate_hertz = 44100
 
-    encoding = speech_v1.RecognitionConfig.AudioEncoding.ENCODING_UNSPECIFIED
+    encoding = speech_v1.enums.RecognitionConfig.AudioEncoding.ENCODING_UNSPECIFIED
     config = {
         "language_code": language_code,
         "sample_rate_hertz": sample_rate_hertz,
@@ -231,20 +213,36 @@ def video_processing(file_path):
 
     print(len(sound))
 
-    # beep = create_beep(duration=1000)
+    beep = create_beep(duration=1000)
     
-    # i = 0
-    # mixed = sound.overlay(beep, position=swear_timeline[i][0], gain_during_overlay=-20)
-    # mixed
+    i = 0
+    mixed = sound.overlay(beep, position=swear_timeline[i][0], gain_during_overlay=-20)
+    mixed
 
-    # mixed_final = sound
+    mixed_final = sound
 
-    # for i in range(len(swear_timeline)):
-    #     beep = create_beep(duration=swear_timeline[i][1] - swear_timeline[i][0])
-    #     mixed_final = mixed_final.overlay(beep, position=swear_timeline[i][0], gain_during_overlay=-20)
+    for i in range(len(swear_timeline)):
+        beep = create_beep(duration=swear_timeline[i][1] - swear_timeline[i][0])
+        mixed_final = mixed_final.overlay(beep, position=swear_timeline[i][0], gain_during_overlay=-20)
         
-    # mixed_final
+    mixed_final
 
-    # mixed_final.export(AUDIOPATH, format='mp3')
+    mixed_final.export(AUDIOPATH, format='mp3')
 
-    # overlay()
+    videoClip = VideoFileClip(MEDIAPATH)
+    audioClip = AudioFileClip(AUDIOPATH)
+
+    # audioClip = CompositeAudioClip([videoClip.audio, audioClip])
+    # videoClip.audio = audioClip
+
+    videoClip = videoClip.set_audio(audioClip)
+    videoClip.write_videofile(MEDIAPATH, \
+        codec='libx264', 
+        audio_codec='aac', 
+        temp_audiofile='temp-audio.m4a', 
+        remove_temp=True)
+    # print(Pcolor.OKBLUE+'# 비속어 처리가 완료되었습니다.',Pcolor.ENDC)
+    # print(Pcolor.OKBLUE+'# 다음의 파일을 확인해주세요 : processed_video.mp4',Pcolor.ENDC)
+
+    return file_path
+
