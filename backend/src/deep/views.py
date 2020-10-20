@@ -6,7 +6,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view, parser_classes
 from deep.models import Deep
 from deep.serializers import DeepSerializer
-# from .utils import video_processing
+from .utils import video_processing
 
 # Deep File
 class DeepViewSet(viewsets.ModelViewSet):
@@ -24,12 +24,9 @@ def Deep_list(request):
         return Response(serializer.data)
     else:
         video_file = request.data['video_file']
-        print(type(video_file))
-        # request.data['video_file'] = None
-        # request.data['title'] = '안녕하세요'
- 
         serializer = DeepSerializer(data=request.data)
         if serializer.is_valid():
+            video_processing(video_file)
             serializer.save()
             print(serializer.data['video_file'])
             return Response(serializer.data, status=status.HTTP_201_CREATED)

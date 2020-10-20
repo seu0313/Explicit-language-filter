@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "C:\\Users\\Raku\\Anaconda3\\python.exe"
+    "python.pythonPath": "backend\\eieo\\Scripts\\python.exe",
+    "python.jediEnabled": true,
 }

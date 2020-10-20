@@ -1,125 +1,28 @@
-from google.auth.exceptions import DefaultCredentialsError
+import io
 import os
+import json
+import time
+import datetime
+import pydub
+pydub.AudioSegment.ffmpeg = "/absolute/path/to/ffmpeg"
+from datetime import timedelta
+from pydub import AudioSegment
 # from google.cloud import speech_v1p1beta1
 # from google.cloud.speech_v1p1beta1 import enums
 from google.cloud import speech_v1
-from google.cloud.speech_v1 import enums
-from pydub import AudioSegment
+# from google.cloud.speech_v1 import enums
+# from google.auth.exceptions import DefaultCredentialsError
 import numpy as np
-import io
-from profanity import get_profanity
-
-profanities = get_profanity()
 
 from moviepy.editor import *
 
+BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+MEDIA_DIR = os.path.join(BASE_DIR, 'media')
+AUDIO_DIR = os.path.join(MEDIA_DIR, 'audio')
+
 def credentials():
-    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = "여기에 './경로/your_gcp_credentials.json'을 입력하세요."
-
-def video_processing():
-    videoClip = VideoFileClip("./video_file/video.mp4")
-    audioClip = videoClip.audio
-    audioClip.write_audiofile("./audio_file/audio.mp3")
-
-    try:
-        credentials()
-
-        # preprocessing
-        timeline, swear_timeline, words = sample_recognize('audio_file/audio.mp3')
-
-        print(timeline)
-        print(words)
-        print(swear_timeline)
-
-        sound = AudioSegment.from_file('audio_file/audio.mp3', format='mp3')
-
-        print(len(sound))
-        sound
-
-        beep = create_beep(duration=1000)
-        beep
-        
-        i = 0
-        mixed = sound.overlay(beep, position=swear_timeline[i][0], gain_during_overlay=-20)
-        mixed
-
-        mixed_final = sound
-
-        for i in range(len(swear_timeline)):
-            beep = create_beep(duration=swear_timeline[i][1] - swear_timeline[i][0])
-            mixed_final = mixed_final.overlay(beep, position=swear_timeline[i][0], gain_during_overlay=-20)
-            
-        mixed_final
-
-        mixed_final.export('audio_file/result.mp3', format='mp3')
-
-        overlay()
-    except DefaultCredentialsError:
-        print(Pcolor.FAIL+"Google API Credential 문제입니다. https://cloud.google.com/docs/authentication/getting-started 을 확인해주세요.")
-
-def sample_recognize(local_file_path):
-    client = speech_v1.SpeechClient()
-
-    language_code = "ko-KR"
-    sample_rate_hertz = 44100
-
-    encoding = enums.RecognitionConfig.AudioEncoding.ENCODING_UNSPECIFIED
-    config = {
-        "language_code": language_code,
-        "sample_rate_hertz": sample_rate_hertz,
-        "encoding": encoding,
-        "enable_word_time_offsets": True,
-        "use_enhanced": True,
-    }
-    
-    with io.open(local_file_path, "rb") as f:
-        content = f.read()
-    
-    audio = {"content": content}
-
-    response = client.recognize(config, audio)
-    
-    timeline, swear_timeline, words = [], [], []
-
-    for result in response.results:
-        alternative = result.alternatives[0]
-        print(u"\nTranscript: {}".format(alternative.transcript))
-        
-        for word in alternative.words:
-            timeline.append([
-                int(word.start_time.seconds * 1000 + word.start_time.nanos * (10**-6)),
-                int(word.end_time.seconds * 1000 + word.end_time.nanos * (10**-6))
-            ])
-            
-            words.append(word.word)
-
-            for profanity in profanities :
-                if profanity in word.word:
-                    swear_timeline.append([
-                        int(word.start_time.seconds * 1000 + word.start_time.nanos * (10**-6)),
-                        int(word.end_time.seconds * 1000 + word.end_time.nanos * (10**-6))
-                    ])
-                
-    return timeline, swear_timeline, words
-
-def create_beep(duration):
-    sps = 44100
-    freq_hz = 1000.0
-    vol = 1
-
-    esm = np.arange(duration / 1000 * sps)
-    wf = np.sin(2 * np.pi * esm * freq_hz / sps)
-    wf_quiet = wf * vol
-    wf_int = np.int16(wf_quiet * 32767)
-
-    beep = AudioSegment(
-        wf_int.tobytes(), 
-        frame_rate=sps,
-        sample_width=wf_int.dtype.itemsize, 
-        channels=1
-    )
-
-    return beep
+    SECRETS_DIR = os.path.join(BASE_DIR, 'secrets/Abusive-Language-detection-30258f70228e.json')
+    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = SECRETS_DIR
 
 def get_profanity():
     profanity = '''
@@ -215,5 +118,133 @@ def get_profanity():
         # 추후 추가.
     return list(profanity.split())
 
-if __name__ == "__main__":
-    print(get_profanity())
+def overlay():
+    videoClip = VideoFileClip("./video_file/video.mp4")
+    audioClip = AudioFileClip("./audio_file/result.mp3")
+
+    # audioClip = CompositeAudioClip([videoClip.audio, audioClip])
+    # videoClip.audio = audioClip
+
+    videoClip = videoClip.set_audio(audioClip)
+    videoClip.write_videofile("./processed_video.mp4", \
+        codec='libx264', 
+        audio_codec='aac', 
+        temp_audiofile='temp-audio.m4a', 
+        remove_temp=True)
+    # print(Pcolor.OKBLUE+'# 비속어 처리가 완료되었습니다.',Pcolor.ENDC)
+    # print(Pcolor.OKBLUE+'# 다음의 파일을 확인해주세요 : processed_video.mp4',Pcolor.ENDC)
+
+def create_beep(duration):
+    sps = 44100
+    freq_hz = 1000.0
+    vol = 1
+
+    esm = np.arange(duration / 1000 * sps)
+    wf = np.sin(2 * np.pi * esm * freq_hz / sps)
+    wf_quiet = wf * vol
+    wf_int = np.int16(wf_quiet * 32767)
+
+    beep = AudioSegment(
+        wf_int.tobytes(), 
+        frame_rate=sps,
+        sample_width=wf_int.dtype.itemsize, 
+        channels=1
+    )
+
+    return beep
+
+# gcp 처리
+def sample_recognize(local_file_path):
+    credentials()
+
+    client = speech_v1.SpeechClient()
+
+    language_code = "ko-KR"
+    sample_rate_hertz = 44100
+
+    encoding = speech_v1.RecognitionConfig.AudioEncoding.ENCODING_UNSPECIFIED
+    config = {
+        "language_code": language_code,
+        "sample_rate_hertz": sample_rate_hertz,
+        "encoding": encoding,
+        "enable_word_time_offsets": True,
+        "use_enhanced": True,
+    }
+    
+    with io.open(local_file_path, "rb") as f:
+        content = f.read()
+    
+    audio = {"content": content}
+
+    response = client.recognize(config=config,audio=audio)
+    
+    timeline, swear_timeline, words = [], [], []
+
+    profanities = get_profanity()
+
+    for result in response.results:
+        alternative = result.alternatives[0]
+        print(u"\nTranscript: {}".format(alternative.transcript))
+        
+        for word in alternative.words:
+            timeline.append([
+                int(word.start_time.seconds * 1000 + word.start_time.microseconds * (10**-9)),
+                int(word.end_time.seconds * 1000 + word.end_time.microseconds * (10**-9))
+            ])
+            
+            words.append(word.word)
+
+            # 비속어 처리
+            for profanity in profanities :
+                if profanity in word.word:
+                    swear_timeline.append([
+                        int(word.start_time.seconds * 1000 + word.start_time.microseconds * (10**-9)),
+                        int(word.end_time.seconds * 1000 + word.end_time.microseconds * (10**-9))
+                    ])
+                
+    return timeline, swear_timeline, words
+
+def video_processing(file_path):
+    print(os.path.join(MEDIA_DIR, file_path.name))
+    MEDIAPATH = os.path.join(MEDIA_DIR, file_path.name)
+    AUDIOPATH = os.path.join(MEDIA_DIR, file_path.name.replace('.mp4','.mp3'))
+
+    # time.sleep(5)
+
+    print(AUDIOPATH)
+
+    videoClip = VideoFileClip(MEDIAPATH)
+    print(f'비디오 파일 {videoClip}')
+    audioClip = videoClip.audio
+    print(f'오디오 파일 {audioClip}')
+    audioClip.write_audiofile(AUDIOPATH)
+    
+    # preprocessing
+    timeline, swear_timeline, words = sample_recognize(AUDIOPATH)
+    
+    print(f'timeline : {timeline}')
+    print(f'swear_timeline : {swear_timeline}')
+    print(f'words : {words}')
+    
+    print(f'오디오 확인: {AUDIOPATH}')
+    sound = AudioSegment.from_file(AUDIOPATH, format='mp3')
+
+    print(len(sound))
+
+    # beep = create_beep(duration=1000)
+    
+    # i = 0
+    # mixed = sound.overlay(beep, position=swear_timeline[i][0], gain_during_overlay=-20)
+    # mixed
+
+    # mixed_final = sound
+
+    # for i in range(len(swear_timeline)):
+    #     beep = create_beep(duration=swear_timeline[i][1] - swear_timeline[i][0])
+    #     mixed_final = mixed_final.overlay(beep, position=swear_timeline[i][0], gain_during_overlay=-20)
+        
+    # mixed_final
+
+    # mixed_final.export(AUDIOPATH, format='mp3')
+
+    # overlay()
