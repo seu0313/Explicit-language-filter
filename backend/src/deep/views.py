@@ -24,10 +24,13 @@ def Deep_list(request):
         return Response(serializer.data)
     else:
         video_file = request.data['video_file']
+        try:
+            video_file = video_processing(video_file)
+        except:
+            pass
         serializer = DeepSerializer(data=request.data)
         if serializer.is_valid():
-            video_processing(video_file)
             serializer.save()
-            print(serializer.data['video_file'])
+            print(f"데이터 {serializer.data['video_file']}")
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
