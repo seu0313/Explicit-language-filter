@@ -1,4 +1,5 @@
 {
     "python.pythonPath": "backend\\eieo\\Scripts\\python.exe",
     "python.jediEnabled": true,
+    "python.languageServer": "Jedi",
 }

@@ -1,106 +1,98 @@
+from pydub import AudioSegment
+from typing import List, Tuple
 import numpy as np
-import pandas as pd
-from pprint import pprint
-from hanJamo import hang_onehot, hang_to_jamo, TOTAL
+import random
 
-from keras.preprocessing.text import Tokenizer
-from keras.preprocessing.sequence import pad_sequences
+from loadData import match_target_amplitude, graph_spectrogram, get_spectrogram
 
-from keras.layers import Input, Embedding
+''' 
++------------------+
+ Data preprocessing
++------------------+
+'''
+# 랜덤 시간 분할 (배경에 삽입을 위해)
+def get_random_time_segment(segment_ms: int) -> Tuple[int, int]:
+    segment_start = np.random.randint(low=0, high=10000-segment_ms)
+    segment_end = segment_start + segment_ms - 1
 
-# 구
-def text_to_seq(texts):
-    # text to lower
-    texts = [s.lower() for s in texts]
+    return (segment_start, segment_end)
 
-    # Token initialize
-    tk = Tokenizer(num_words=None, char_level=True, oov_token='UNK')
+
+# 오버랩 체크
+def is_overlapping(segment_time: Tuple[int, int], previous_segments: List) -> bool:
+    segment_start, segment_end = segment_time
+    overlap = False  # overlap을 False로 초기화
+
+    # 오버랩 체크
+    for previous_start, previous_end in previous_segments:
+        if segment_start <= previous_end and segment_end >= previous_start:
+            overlap = True
+
+    return overlap
+
+
+# 배경 소음을 overlay 하기 위해
+def insert_audio_clip(background: AudioSegment, audio_clip: AudioSegment, previous_segments: List) -> Tuple[AudioSegment, Tuple]:
+    segment_ms = len(audio_clip)
+    segment_time = get_random_time_segment(segment_ms)
+
+    while is_overlapping(segment_time, previous_segments):
+        segment_time = get_random_time_segment(segment_ms)
+    previous_segments.append(segment_time)
+    new_background = background.overlay(audio_clip, position=segment_time[0])
+
+    return new_background, segment_time
+
+def insert_ones(y: List, segment_end_ms: int, index: int) -> List:
+    Ty = y.shape[1]
+    segment_end_y = int(segment_end_ms * Ty / 10000.0)
+    for i in range(segment_end_y + 1, segment_end_y + 51):
+        if i < Ty:
+            y[0, i] = index
+
+    return y
+
+
+# insert_audio_clip과 insert_ones를 이용하여 새로운 training 예제를 만듬
+def create_training_example(background: AudioSegment, positives: List[List], negatives: List, Ty: int) -> Tuple[List, List]:
+    background = background - 20  # 배경 소리 크기 줄이기 위함
+
+    y = np.zeros((1, Ty))
+
+    previous_segments = []
     
-    # Fitting
-    tk.fit_on_texts(texts)
+    # positive insertion
+    for index, positive in enumerate(positives):
+        number_of_positives = np.random.randint(1, 3)
+        random_indices = np.random.randint(len(positive), size=number_of_positives)
+        random_positives = [positive[i] for i in random_indices]
 
-    # -- classify char
-    alphabet = "abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+~`-=[]{}\\|'\";:,./<>? ♥♡★☆\t\n"
-    # alphabet = "abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+~`-=[]{}\\|'\";:,./<>? ♥♡★☆\t\n"
-    # korean = "ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎㅏㅐㅑㅒㅓㅔㅕㅖㅗㅘㅙㅚㅛㅜㅝㅞㅟㅠㅡㅢㅣ_ㄱㄲㄳㄴㄵㄶㄷㄹㄺㄻㄼㄽㄾㄿㅀㅁㅂㅄㅅㅆㅇㅈㅊㅋㅌㅍㅎ"
+        for random_positive in random_positives:
+            background, segment_time = insert_audio_clip(background, random_positive, previous_segments)
+            segment_start, segment_end = segment_time
+            y = insert_ones(y, segment_end, index + 1)
 
-    # alphabet = korean
-
-    # 자모 dictionary
-    char_dict = {}
-    for i, char in enumerate(alphabet):
-        char_dict[char] = i + 1
-
-    # OOV 토큰 추가
-    tk.word_index = char_dict
-    tk.word_index[tk.oov_token] = max(char_dict.values()) + 1
-
-    # 시퀀스화
-    sequences = tk.texts_to_sequences(texts)
-    print(texts[0])
-    print(sequences[0])
-
-    # 패팅 과정 : 글자 수 차이 상쇄
-    # 최대 길이 : 1014, 후위 패딩
-    data = pad_sequences(sequences, maxlen=1014, padding='post')
-
-    data = np.array(data)
-    return data, tk
-
-def sequence_to_embedding(texts, input_size, embedding_size):
-    data, tk = text_to_seq(texts)
-
-    vocab_size = len(tk.word_index)
-
-    embedding_weights = []
-    embedding_weights.append(np.zeros(vocab_size))
-
-    for _, i in tk.word_index.items():
-        onehot = np.zeros(vocab_size)
-        onehot[i-1] = 1
-        embedding_weights.append(onehot)
-
-    embedding_weights = np.array(embedding_weights)
+    # negative insertion
+    number_of_negatives = np.random.randint(0, 2)
+    random_indices = np.random.randint(len(negatives), size=number_of_negatives)
+    random_negatives = [negatives[i] for i in random_indices]
     
-    pprint(embedding_weights)
+    for random_negative in random_negatives:
+        background, _ = insert_audio_clip(background, random_negative, previous_segments)
+    background = match_target_amplitude(background, -20.0)
 
-    # Embedding 계층 초기화
-    embedding_layer = Embedding(vocab_size+1, 
-                                embedding_size, 
-                                input_length=input_size,
-                                weights=[embedding_weights])
+    file_handle = background.export("./datasets/created_file/train.wav", format="wav")  # _io.BufferedRandom
 
-    return embedding_layer
+    x = get_spectrogram("./datasets/created_file/train.wav")
 
-# 신
-def hang_to_embedding(texts):
-    vocab_size = len(TOTAL)
+    # # 생성된 데이터가 잘 만들어 졌는 지 하나하나 체크하기 위함
+    # sequence = time.time()
+    # file_handle = background.export(f"./raw_data/created_file/train_{sequence}"+".wav", format="wav")
+    # x = graph_spectrogram(f"./raw_data/created_file/train_{sequence}"+".wav")
 
-    embedding_weights = []
-    # for text in texts:
-    #     embedding_weights.append(hang_onehot(text))
-    
-    pprint(hang_onehot(texts))
-    # embedding_layer = Embedding(vocab_size+1, 
-    #                             embedding_size, 
-    #                             input_length=input_size,
-    #                             weights=[embedding_weights])
+    return x, y
 
+''' +-----------------------------------------------+ '''
 
 if __name__ == "__main__":
-    # texts = ["wall st. bears claw back into the black (reuters)reuters - short-sellers, wall street's dwindling\\band of ultra-cynics, are seeing green again.",
-    #    'carlyle looks toward commercial aerospace (reuters)reuters - private investment firm carlyle group,\\which has a reputation for making well-timed and occasionally\\controversial plays in the defense industry, has quietly placed\\its bets on another part of the market.',
-    #    "oil and economy cloud stocks' outlook (reuters)reuters - soaring crude prices plus worries\\about the economy and the outlook for earnings are expected to\\hang over the stock market next week during the depth of the\\summer doldrums."]
-
-    # texts = ['안녕하세요','반갑습니다','안녕히가세요']
-    texts = '안'
-
-    # input_size = 1014
-    # embedding_size = 76
-
-    # # test
-    # embedding_size = 20
-
-    # embedding_layer = sequence_to_embedding(texts, input_size, embedding_size)
-
-    # embedding_layer = hang_to_embedding(texts)
+    print(get_spectrogram('./test_wav.wav'))
