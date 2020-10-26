@@ -1,0 +1,17 @@
+# vscode settings
+.vscode/*
+.vscode/settings.json
+
+# python settings
+*.log
+*.pot
+*.pyc
+*.wav
+*.mp3
+*.mp4
+*.h5
+*.npy
+.DS_Store*
+Icon?
+__pycache__
+.ipynb_checkpoints
