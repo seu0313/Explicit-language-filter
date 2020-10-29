@@ -1,9 +1,0 @@
-*.wav
-*.mp3
-*.mp4
-*.h5
-*.npy
-.DS_Store*
-Icon?
-__pycache__
-.ipynb_checkpoints

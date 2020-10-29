@@ -1,6 +1,6 @@
 import os
 from moviepy.editor import *
-from pytube import *
+from pytube import YouTube
 from p_color import Pcolor
 
 def is_path():
@@ -14,17 +14,15 @@ def is_path():
 
 def get_data(urls='https://www.youtube.com/watch?v=dd9gN8DU8QE'):
     is_path()
-    try:
-        yt = YouTube(urls)
-        yt_info = {'영상 제목':yt.title, '영상 길이':yt.length, '영상 평점':yt.rating,\
-            '영상 조회수':yt.views, '영상 설명':yt.description}
+    yt = YouTube(urls)
+    yt_info = {'영상 제목':yt.title, '영상 길이':yt.length, '영상 평점':yt.rating,\
+        '영상 조회수':yt.views, '영상 설명':yt.description}
 
-        print(Pcolor.OKGREEN+"데이터를 성공적으로 가져왔습니다\n"+Pcolor.ENDC)
-        for k, v in yt_info.items():
-            print(f'{k} : {v}')
-    except:
-        print(Pcolor.FAIL+"# 데이터를 가져오는데 실패했습니다"+Pcolor.ENDC)
-        return False
+    print(Pcolor.OKGREEN+"데이터를 성공적으로 가져왔습니다\n"+Pcolor.ENDC)
+    for k, v in yt_info.items():
+        print(f'{k} : {v}')
+        # print(Pcolor.FAIL+"# 데이터를 가져오는데 실패했습니다"+Pcolor.ENDC)
+        # return False
 
     stream = yt.streams
     # for i,v in enumerate(stream.filter(file_extension='mp4').all()):
@@ -42,8 +40,7 @@ def video_to_audio():
         print(Pcolor.WARNING+'# 파일명: ./video_file/video.mp4 을 찾을 수 없습니다.'+Pcolor.ENDC)
 
 if __name__ == "__main__":
-    get_data('')
-    video_to_audio()
+    get_data()
 
 
 
