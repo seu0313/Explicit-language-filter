@@ -3,7 +3,7 @@ from pydub import AudioSegment
 from models import *
 from preprocessing import *
 from loadData import *
-from training import *
+from training_tools import *
 
 
 if __name__ == "__main__":
