@@ -1,5 +1,6 @@
 from pydub import AudioSegment
 from typing import List, Tuple
+from pprint import pprint
 import numpy as np
 import random
 
@@ -54,13 +55,13 @@ def insert_ones(y: List, segment_end_ms: int, index: int) -> List:
 
 
 # insert_audio_clip과 insert_ones를 이용하여 새로운 training 예제를 만듬
-def create_training_example(background: AudioSegment, positives: List[List], negatives: List, Ty: int) -> Tuple[List, List]:
+def create_training_example(background: AudioSegment, positives: List[List[AudioSegment]], negatives: List[AudioSegment], Ty: int) -> Tuple[List, List]:
     background = background - 20  # 배경 소리 크기 줄이기 위함
 
     y = np.zeros((1, Ty))
 
     previous_segments = []
-    
+
     # positive insertion
     for index, positive in enumerate(positives):
         number_of_positives = np.random.randint(1, 3)

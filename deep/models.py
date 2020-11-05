@@ -3,6 +3,8 @@ from keras.models import Model, load_model, Sequential
 from keras.layers import Dense, Activation, Dropout, Input, Masking, TimeDistributed, LSTM, Conv1D
 from keras.layers import GRU, Bidirectional, BatchNormalization, Reshape
 from keras.optimizers import Adam, SGD, RMSprop
+from typing import NoReturn
+import tensorflow
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -54,7 +56,7 @@ def model_2(input_shape):
     X = BatchNormalization()(X)                       
     X = Dropout(0.2)(X)                                  
 
-    X = TimeDistributed(Dense(3, activation = "softmax"))(X)
+    X = TimeDistributed(Dense(4, activation = "softmax"))(X)
 
     model = Model(inputs = [X_input], outputs = [X])
     
@@ -67,9 +69,9 @@ def model_train(model,
                 batch_size=5,
                 epochs=30,
                 validation_split=0.1,
-                use_custom_valid=False):
+                use_custom_valid=False) -> NoReturn:
 
-    MODEL_SAVE_FOLDER_PATH = './model/Checkpoint/'
+    MODEL_SAVE_FOLDER_PATH = './models/check_point/'
     if not os.path.exists(MODEL_SAVE_FOLDER_PATH):
         os.mkdir(MODEL_SAVE_FOLDER_PATH)
 
@@ -99,9 +101,9 @@ def model_train(model,
     print(f"{filename} Dev set accuracy = ", acc)
     print("\n")
 
-    model.save('./model/' + filename)
+    model.save('./models/' + filename)
 
-    return hist
+    plot_training_accuracy(hist)
 
 def plot_training_accuracy(hist):
 
@@ -109,34 +111,3 @@ def plot_training_accuracy(hist):
     plt.grid(True)
     plt.gca().set_ylim(0,1)
     plt.show()
-
-# 잘못 사용한 코드 (사용금지) : Don't use it
-# def online_learning(Tx, n_freq,
-#                     X_val, Y_val,
-#                     X_dev, Y_dev,
-#                     file_nums,
-#                     opt_name='Adam',
-#                     batch_size=5,
-#                     epochs=30,
-#                     validation_split=0.1,
-#                     use_custom_valid=False):
-
-#     # Online learning 방식
-#     # file_nums = ['1','2','3','4','5']
-    
-#     hists = []
-#     for file_num in file_nums :
-#         X = np.load(f"./XY_file/train/X_{file_num}.npy")
-#         Y = np.load(f"./XY_file/train/Y_{file_num}.npy")
-
-#         if file_num == file_nums[0] and not os.path.exists(f'./model/olo_{file_num}.h5'):
-#             model = model_2(input_shape = (Tx, n_freq))
-#             model.summary()
-
-#         elif file_num == file_nums[0] and os.path.exists(f'./model/olo_{file_num}.h5'):
-#             model = load_model(f'./model/olo_{file_nums[-1]}.h5')
-        
-#         hist = model_train(model, X, Y, X_val, Y_val, X_dev, Y_dev, f'olo_{file_num}.h5', opt_name=opt_name, batch_size=batch_size, epochs=epochs, validation_split= validation_split, use_custom_valid=use_custom_valid)
-#         hists.append(hist)
-
-#     return hists
