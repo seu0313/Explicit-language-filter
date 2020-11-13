@@ -1,40 +1,18 @@
-from keras.callbacks import ModelCheckpoint, EarlyStopping
-from keras.models import Model, load_model, Sequential
-from keras.layers import Dense, Activation, Dropout, Input, Masking, TimeDistributed, LSTM, Conv1D
-from keras.layers import GRU, Bidirectional, BatchNormalization, Reshape
-from keras.optimizers import Adam, SGD, RMSprop
-from typing import NoReturn
-import tensorflow
-import numpy as np
-import matplotlib.pyplot as plt
-import pandas as pd
+# import
 import os
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
 
+from keras.models import Model, load_model, Sequential
+from keras.optimizers import Adam, SGD, RMS
+from keras.callbacks import ModelCheckpoint, EarlyStopping
+from keras.layers import GRU, Bidirectional, BatchNormalization, Reshape
+from keras.layers import Dense, Activation, Dropout, Input, Masking, TimeDistributed, LSTM, Conv1D
+
+
+# code
 def model(input_shape):
-    
-    X_input = Input(shape = input_shape)
-    
-    X = Conv1D(196, kernel_size=15, strides=4)(X_input)   
-    X = BatchNormalization()(X)                           
-    X = Activation('relu')(X)                            
-    X = Dropout(0.8)(X)                                   
-
-    X = GRU(units = 128, return_sequences = True)(X) 
-    X = Dropout(0.8)(X)                                   
-    X = BatchNormalization()(X)                           
-    
-    X = GRU(units = 128, return_sequences = True)(X) 
-    X = Dropout(0.8)(X)                                   
-    X = BatchNormalization()(X)                           
-    X = Dropout(0.8)(X)                                   
-
-    X = TimeDistributed(Dense(1, activation = "sigmoid"))(X)
-
-    model = Model(inputs = X_input, outputs = X)
-    
-    return model
-
-def model_2(input_shape):
     
     X_input = Input(shape = input_shape)
 
@@ -56,7 +34,7 @@ def model_2(input_shape):
     X = BatchNormalization()(X)                       
     X = Dropout(0.2)(X)                                  
 
-    X = TimeDistributed(Dense(4, activation = "softmax"))(X)
+    X = TimeDistributed(Dense(3, activation = "softmax"))(X)
 
     model = Model(inputs = [X_input], outputs = [X])
     
@@ -66,10 +44,10 @@ def model_train(model,
                 X, Y, X_val, Y_val, X_dev, Y_dev,
                 filename,
                 opt_name='Adam',
-                batch_size=5,
-                epochs=30,
+                batch_size=10,
+                epochs=10,
                 validation_split=0.1,
-                use_custom_valid=False) -> NoReturn:
+                use_custom_valid=False):
 
     MODEL_SAVE_FOLDER_PATH = './models/check_point/'
     if not os.path.exists(MODEL_SAVE_FOLDER_PATH):
@@ -103,9 +81,9 @@ def model_train(model,
 
     model.save('./models/' + filename)
 
-    plot_training_accuracy(hist)
+    return hist
 
-def plot_training_accuracy(hist):
+def plot_train_histogram(hist):
 
     pd.DataFrame(hist.history).plot()
     plt.grid(True)
