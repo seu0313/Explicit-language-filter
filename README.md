@@ -17,11 +17,14 @@
 
 ### * commit rules (Since 2020.09.19)
 ~~~zsh
-    git commit -m 'Feat - 내용 (#)' : 새로운 기능 추가
-    git commit -m 'Refact - 내용 (#)' : 기능, 버그 수정이 아닌 수정
-    git commit -m 'Update - 내용 (#)' : 다 갈아 엎음
-    git commit -m 'Fix - 내용 (#)' : 버그 수정
-    git commit -m 'CI - 내용 (#)' : CI 설정 파일, 스크립트 수정
-    git commit -m 'Doc - 내용 (#)' : Readme와 같은 문서 추가 및 수정
+    git commit -m 'feat - 내용 (#)' : 새로운 기능 추가
+    git commit -m 'refact - 내용 (#)' : 코드 리팩토링, 기존 기능 수정
+    git commit -m 'fix - 내용 (#)' : 버그 수정
+    git commit -m 'ci - 내용 (#)' : CI 설정 파일, 스크립트 수정
+    git commit -m 'docs - 내용 (#)' : Readme와 같은 문서 추가 및 수정
+    git commit -m 'store - 내용 (#)' : Mac - Windows의 작업공간 이동을 위한 백업
+    git commit -m 'chore - 내용 (#)' : 코드 수정 없이 설정 변경
+    git commit -m 'style - 내용 (#)' : 코드 포맷팅, 세미콜론 누락
+    git commit -m 'test - 내용 (#)' : 테스트와 관련한 코드 추가, 수정
 ~~~
 ---
