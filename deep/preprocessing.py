@@ -1,16 +1,15 @@
+# import
+import random
+import numpy as np
+
+from pprint import pprint
 from pydub import AudioSegment
 from typing import List, Tuple
-from pprint import pprint
-import numpy as np
-import random
+from load_data import match_target_amplitude, graph_spectrogram, get_spectrogram
 
-from loadData import match_target_amplitude, graph_spectrogram, get_spectrogram
 
-''' 
-+------------------+
- Data preprocessing
-+------------------+
-'''
+# code
+
 # 랜덤 시간 분할 (배경에 삽입을 위해)
 def get_random_time_segment(segment_ms: int) -> Tuple[int, int]:
     segment_start = np.random.randint(low=0, high=10000-segment_ms)
@@ -43,6 +42,7 @@ def insert_audio_clip(background: AudioSegment, audio_clip: AudioSegment, previo
     new_background = background.overlay(audio_clip, position=segment_time[0])
 
     return new_background, segment_time
+
 
 def insert_ones(y: List, segment_end_ms: int, index: int) -> List:
     Ty = y.shape[1]
@@ -82,18 +82,12 @@ def create_training_example(background: AudioSegment, positives: List[List[Audio
         background, _ = insert_audio_clip(background, random_negative, previous_segments)
     background = match_target_amplitude(background, -20.0)
 
-    file_handle = background.export("./datasets/created_file/train.wav", format="wav")  # _io.BufferedRandom
-
+    background.export("./datasets/created_file/train.wav", format="wav")  # _io.BufferedRandom
     x = get_spectrogram("./datasets/created_file/train.wav")
-
-    # # 생성된 데이터가 잘 만들어 졌는 지 하나하나 체크하기 위함
-    # sequence = time.time()
-    # file_handle = background.export(f"./raw_data/created_file/train_{sequence}"+".wav", format="wav")
-    # x = graph_spectrogram(f"./raw_data/created_file/train_{sequence}"+".wav")
 
     return x, y
 
-''' +-----------------------------------------------+ '''
 
+# test
 if __name__ == "__main__":
     print(get_spectrogram('./test_wav.wav'))
