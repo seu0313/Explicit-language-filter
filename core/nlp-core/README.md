@@ -173,4 +173,4 @@ _________________________________________________________________
 <hr/>
 
 ### 구현 및 이론 정리 위키
-[# 이론](https://github.com/seu0313/Explicit-language-filter/wiki/charCNN,-VDCNN-%EC%9D%B4%EB%A1%A0-%EC%A0%95%EB%A6%AC)
+[# 이론](https://github.com/seu0313/Bad-word-filter/wiki/charCNN,-VDCNN-%EC%9D%B4%EB%A1%A0-%EC%A0%95%EB%A6%AC)
