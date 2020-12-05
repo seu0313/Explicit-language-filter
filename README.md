@@ -8,7 +8,7 @@
 > 음성 비속어 필터
 
 ## 소개
-- 개인 프로젝트 A
+- 개인 프로젝트 C
 
 ## 결과
 <img width="800" alt="스크린샷 2020-12-03 오후 9 17 45 2" src="https://user-images.githubusercontent.com/38010141/101239495-45da7c00-372b-11eb-819c-6aee1f3b00ff.png">
