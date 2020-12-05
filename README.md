@@ -11,4 +11,4 @@
 - 개인 프로젝트 A
 
 ## Wiki 
-[프로젝트 위키](https://github.com/seu0313/Bad-word-filter-Core/wiki)
+[프로젝트 위키](https://github.com/seu0313/Bad-word-filter/wiki)
