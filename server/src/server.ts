@@ -1,5 +1,3 @@
-import "reflect-metadata";
-
 import http from "http";
 import app from "./config/app";
 import { env, port } from "./config/index";
