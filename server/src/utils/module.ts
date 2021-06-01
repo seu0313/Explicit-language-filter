@@ -1,4 +1,11 @@
-// custom error module
+/**
+ * Custom Error class, JSON conversion function, status code, response message
+ *
+ * @author seu0313
+ * @since 2.0.0
+ */
+
+// custom Error class
 export class resError extends Error {
   success: boolean = false;
   status: number;
@@ -11,7 +18,7 @@ export class resError extends Error {
   }
 }
 
-// custom json response
+// custom JSON conversion function
 export const resJSON = (
   success: boolean = true,
   message: string,
@@ -24,7 +31,7 @@ export const resJSON = (
   };
 };
 
-// status, custom response message
+// status code, custom response message
 export const status = {
   // status code
   OK: 200,

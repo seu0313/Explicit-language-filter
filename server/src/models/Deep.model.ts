@@ -5,6 +5,13 @@ import {
   PrimaryGeneratedColumn,
 } from "typeorm";
 
+/**
+ * Database Deep model to receive user input values
+ *
+ * @author seu0313
+ * @since 2.0.0
+ */
+
 @Entity()
 export class Deep {
   @PrimaryGeneratedColumn()

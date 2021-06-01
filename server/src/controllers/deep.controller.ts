@@ -1,41 +1,96 @@
 import { Request, Response, NextFunction } from "express";
 import * as deepService from "@services/deep.service";
-import { serverURL } from "../config/index";
 import { resError, resJSON, resMSG } from "@utils/module";
 
-export const findAllController = (
+/**
+ * Perform the actions requested by the user.
+ * Send responses in the form of JSON to data corresponding to user's request.
+ *
+ * @author seu0313
+ * @since 2.0.0
+ */
+
+// Send all Deep data to JSON format
+export const findAllController = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const result = deepService.findAllService();
-  res.status(200).json(resJSON(true, resMSG.OK, result));
+  try {
+    const result = await deepService.findAllService();
+    if (!result) {
+      throw new resError(400, resMSG.BAD_REQUEST);
+    }
+    res.status(200).json(resJSON(true, resMSG.OK, result));
+  } catch (err) {
+    next(err);
+  }
 };
-export const findOneController = (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {};
-export const createDeepController = (
+
+// Send one Deep data to JSON format
+export const findOneController = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  console.log(req.file);
-  console.log(
-    resJSON(true, resMSG.OK, `${serverURL}/media/${req.file["path"]}`)
-  );
-  res
-    .status(200)
-    .json(resJSON(true, resMSG.OK, `${serverURL}/media/${req.file["path"]}`));
+  try {
+    const result = await deepService.findOneService(req.params.id);
+    if (!result) {
+      throw new resError(400, resMSG.BAD_REQUEST);
+    }
+    res.status(200).json(resJSON(true, resMSG.OK, result));
+  } catch (err) {
+    next(err);
+  }
 };
-export const updateDeepController = (
+
+// Send create response to JSON format
+export const createDeepController = async (
   req: Request,
   res: Response,
   next: NextFunction
-) => {};
-export const deleteDeepController = (
+) => {
+  try {
+    const result = await deepService.createDeepService(req.body, req.file);
+    if (!result) {
+      throw new resError(400, resMSG.BAD_REQUEST);
+    }
+    res.status(200).json(resJSON(true, resMSG.OK, result));
+  } catch (err) {
+    next(err);
+  }
+};
+
+// Send update response to JSON format
+export const updateDeepController = async (
   req: Request,
   res: Response,
   next: NextFunction
-) => {};
+) => {
+  try {
+    const result = await deepService.updateDeepService(req.params.id, req.body);
+    if (!result) {
+      throw new resError(400, resMSG.BAD_REQUEST);
+    }
+    res.status(200).json(resJSON(true, resMSG.OK, result));
+  } catch (err) {
+    next(err);
+  }
+};
+
+// Send delete response to JSON format
+export const deleteDeepController = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const result = await deepService.deleteDeepService(req.params.id);
+    if (!result) {
+      throw new resError(400, resMSG.BAD_REQUEST);
+    }
+    res.status(200).json(resJSON(true, resMSG.OK, result));
+  } catch (err) {
+    next(err);
+  }
+};

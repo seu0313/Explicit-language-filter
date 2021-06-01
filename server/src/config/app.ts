@@ -14,11 +14,17 @@ const app = express();
 app.use(morgan(morganType));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cors({ origin: clientURL }));
+app.use(
+  cors({
+    origin: clientURL,
+    methods: ["GET", "POST", "PATCH", "DELETE"],
+    credentials: true,
+  })
+);
 
-// router settings
+// router settings (will change to v2)
 app.use("/api/v1", router);
-app.use("/media/", express.static("uploads"));
+app.use("/uploads", express.static("uploads"));
 
 // error handlers
 app.use(errorNotFound);
