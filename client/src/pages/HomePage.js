@@ -25,7 +25,7 @@ const HomePage = () => {
     axios
       .get(url)
       .then((res) => {
-        setDeeps(res.data);
+        setDeeps(res.data["data"]);
         setLoadingCheck(true);
       })
       .catch((err) => console.log(err));
@@ -37,7 +37,7 @@ const HomePage = () => {
     axios
       .get(url)
       .then((res) => {
-        setDeeps(res.data);
+        setDeeps(res.data["data"]);
       })
       .catch((err) => console.log(err));
   };

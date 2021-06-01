@@ -44,10 +44,10 @@ const VideoPreview = (props) => {
           key={Deep.id}
           width="310px"
           height="200px"
-          src={Deep.video_file}
+          src={Deep.videoFile}
         />
         <div className="time-label">
-          <span>{convertMS(Deep.video_duration)}</span>
+          <span>{convertMS(Deep.videoDuration)}</span>
         </div>
       </div>
       <div className="video-info">
@@ -55,7 +55,7 @@ const VideoPreview = (props) => {
         <div className="video-preview-metadata-container">
           <div className="channel-title">{Deep.description}</div>
           <div>
-            <span>생성일자 {convertCreatedAt(Deep.created_at)}</span>
+            <span>생성일자 {convertCreatedAt(Deep.createdAt)}</span>
           </div>
           <div>
             <Button

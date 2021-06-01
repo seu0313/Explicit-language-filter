@@ -67,8 +67,8 @@ const VideoUploadPage = () => {
     const formData = new FormData();
     formData.append("title", VideoTitle);
     formData.append("description", VideoDescription);
-    formData.append("video_file", VideoFile);
-    formData.append("choice_method", value);
+    formData.append("videoFile", VideoFile);
+    formData.append("processMethod", value);
 
     let url = "http://localhost:8000/api/v1/deeps/";
 
