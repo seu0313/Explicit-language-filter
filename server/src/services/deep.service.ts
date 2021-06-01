@@ -29,7 +29,7 @@ export const createDeepService = async (reqBody: any, reqFile: any) => {
     title,
     description,
     processMethod,
-    videoFile: `${serverURL}/${reqFile["path"]}`,
+    videoFile: `${serverURL}/uploads/${reqFile["filename"]}`,
   });
   const result = await getRepository(Deep).save(deepRecord);
   return result;
