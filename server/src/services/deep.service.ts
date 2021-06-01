@@ -6,7 +6,7 @@ export const findAllService = async () => {
   console.log(result);
   return result;
 };
-export const findOneService = () => {};
-export const createDeepService = () => {};
-export const updateDeepService = () => {};
-export const deleteDeepService = () => {};
+export const findOneService = async () => {};
+export const createDeepService = async () => {};
+export const updateDeepService = async () => {};
+export const deleteDeepService = async () => {};

@@ -1,14 +1,14 @@
-import { Request, Response, NextFunction, request } from "express";
+import { Request, Response, NextFunction } from "express";
 import * as deepService from "@services/deep.service";
 import { serverURL } from "../config/index";
 import { resError, resJSON, resMSG } from "@utils/module";
 
-export const findAllController = async (
+export const findAllController = (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
-  const result = await deepService.findAllService();
+  const result = deepService.findAllService();
   res.status(200).json(resJSON(true, resMSG.OK, result));
 };
 export const findOneController = (

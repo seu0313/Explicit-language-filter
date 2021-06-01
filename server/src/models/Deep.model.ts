@@ -7,7 +7,7 @@ import {
 
 @Entity()
 export class Deep {
-  @PrimaryGeneratedColumn("increment")
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Column({ default: null })

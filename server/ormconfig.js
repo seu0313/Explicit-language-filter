@@ -1,3 +1,5 @@
+console.log(__dirname + `/build/models/*`);
+
 export default {
   type: process.env.DB_TYPE,
   host: process.env.DB_HOST,
@@ -7,7 +9,7 @@ export default {
   database: process.env.DB_DATABASE,
   synchronize: true,
   logging: false,
-  entities: [__dirname + `/build/models/**/*`],
+  entities: [__dirname + `/src/models/*.ts`, __dirname + `/build/models/*.js`],
   migrations: [__dirname + `/build/models/migration/**/*`],
   subscribers: [__dirname + `/build/models/subscriber/**/*`],
   cli: {
