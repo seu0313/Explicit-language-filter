@@ -1,24 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 
 const LoginPage = () => {
-    // state
+  // state
 
-    // lifecycle
-    useEffect(() => { 
+  // lifecycle
+  useEffect(() => {}, []);
 
-    },[]);
+  // func
 
-    // func
-
-    
-    // render
-    return(
-        <div style={{ maxWidth: '700px', margin: '2rem auto'}}>
-            <div style={{ textAlign: 'center', marginBottom: '2rem'}}>
-                <h1>Login</h1>
-            </div>
-        </div>
-    );
-}
+  // render
+  return (
+    <div style={{ maxWidth: "700px", margin: "2rem auto" }}>
+      <div style={{ textAlign: "center", marginBottom: "2rem" }}>
+        <h1>Login</h1>
+      </div>
+    </div>
+  );
+};
 
 export default LoginPage;
