@@ -2,10 +2,12 @@
 name: Bug Kor
 about: Create a report to help us improve
 title: "[Bug]"
-labels: "\U0001F525BUG"
+labels: ''
 assignees: seu0313
 
 ---
+
+# Bug Report
 
 **개요**
 A clear and concise description of what the bug is.

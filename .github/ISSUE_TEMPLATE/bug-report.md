@@ -2,7 +2,7 @@
 name: Bug report
 about: Create a report to help us improve
 title: "[Bug]"
-labels: "\U0001F525BUG"
+labels: ''
 assignees: seu0313
 
 ---
