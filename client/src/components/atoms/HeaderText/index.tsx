@@ -1,8 +1,19 @@
 import React from "react";
 import * as S from "./style";
 
-const HeaderText: React.FC = () => {
-  return <S.HeaderText></S.HeaderText>;
+export interface HeaderTextProps {
+  text: string;
+}
+
+const HeaderText: React.FC<HeaderTextProps> = ({ text }) => {
+  const textList = text.split(" ");
+
+  return (
+    <S.Container>
+      <S.HeaderTextLeft>{textList[0]}</S.HeaderTextLeft>
+      <S.HeaderTextRight>{textList[1]}</S.HeaderTextRight>
+    </S.Container>
+  );
 };
 
 export default HeaderText;

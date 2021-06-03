@@ -1,14 +1,20 @@
 import styled, { css } from "styled-components";
-import theme from "styles/theme";
 
 export interface Props {
   isMenuClicked: boolean;
 }
 
+export const Container = styled.div`
+  display: flex;
+  width: 25px;
+  justify-content: center;
+  align-items: center;
+`;
+
 export const HeaderHamburgerWrapper = styled.ul<Props>`
   transform: translate(0%, 0%);
-  width: 34px;
-  height: 33px;
+  width: 25px;
+  height: 25px;
   cursor: pointer;
 
   li:nth-of-type(1) {
@@ -45,8 +51,8 @@ export const HeaderHamburgerList = styled.li`
   left: 0;
   background: black;
   width: 90%;
-  height: 4px;
-  border-radius: 10px;
+  height: 3px;
+  border-radius: 6px;
   transform: translateY(-50%);
-  transition: 0.5s;
+  transition: 0.4s;
 `;

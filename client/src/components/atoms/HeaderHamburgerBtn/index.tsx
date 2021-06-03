@@ -1,27 +1,29 @@
 import React from "react";
 import * as S from "./style";
 
-export interface HeaderHamburgerProps extends S.Props {
+export interface HeaderHamburgerBtnProps extends S.Props {
   isMenuClicked: boolean;
   setIsMenuClicked: (value: boolean) => void;
 }
 
-const HeaderHamburgerBtn: React.FC<HeaderHamburgerProps> = ({
+const HeaderHamburgerBtn: React.FC<HeaderHamburgerBtnProps> = ({
   isMenuClicked,
   setIsMenuClicked,
 }) => {
-  const onClickMenu = (): void => {
+  const onClickMenuBtn = (): void => {
     setIsMenuClicked(!isMenuClicked);
   };
   return (
-    <S.HeaderHamburgerWrapper
-      onClick={onClickMenu}
-      isMenuClicked={isMenuClicked}
-    >
-      <S.HeaderHamburgerList />
-      <S.HeaderHamburgerList />
-      <S.HeaderHamburgerList />
-    </S.HeaderHamburgerWrapper>
+    <S.Container>
+      <S.HeaderHamburgerWrapper
+        onClick={onClickMenuBtn}
+        isMenuClicked={isMenuClicked}
+      >
+        <S.HeaderHamburgerList />
+        <S.HeaderHamburgerList />
+        <S.HeaderHamburgerList />
+      </S.HeaderHamburgerWrapper>
+    </S.Container>
   );
 };
 

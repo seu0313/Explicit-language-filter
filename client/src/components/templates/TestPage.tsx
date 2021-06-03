@@ -1,13 +1,19 @@
 import React, { useState } from "react";
-import HeaderHamburgerBtn from "components/atoms/HeaderHamburgerBtn";
+import Header from "components/modules/Header";
+import cloud from "assets/image/cloud.png";
 
 const TestPage = () => {
+  const [isUploadClicked, setIsUploadClicked] = useState(false);
   const [isMenuClicked, setIsMenuClicked] = useState(false);
   return (
     <div>
-      <HeaderHamburgerBtn
+      <Header
+        src={cloud}
+        text="LINGO FILTER"
         isMenuClicked={isMenuClicked}
-        setIsMenuClicked={setIsMenuClicked}
+        setIsMenuCliecked={setIsMenuClicked}
+        isUploadClicked={isUploadClicked}
+        setUploadClicked={setIsUploadClicked}
       />
     </div>
   );
