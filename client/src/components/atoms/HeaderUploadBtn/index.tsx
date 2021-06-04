@@ -4,16 +4,16 @@ import * as S from "./style";
 export interface HeaderUploadBtnProps {
   src: string;
   isUploadClicked: boolean;
-  setUploadClicked: (value: boolean) => void;
+  setIsUploadClicked: (value: boolean) => void;
 }
 
 const HeaderUploadBtn: React.FC<HeaderUploadBtnProps> = ({
   src,
   isUploadClicked,
-  setUploadClicked,
+  setIsUploadClicked,
 }): JSX.Element => {
   const onClickUploadBtn = (): void => {
-    setUploadClicked(!isUploadClicked);
+    setIsUploadClicked(!isUploadClicked);
   };
   return (
     <S.Container>

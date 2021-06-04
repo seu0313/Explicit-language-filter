@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "components/modules/Header";
 import cloud from "assets/image/cloud.png";
 import thumbnail from "assets/image/thumbnail.png";
@@ -6,6 +6,7 @@ import thumbnail2 from "assets/image/thumbnail2.png";
 
 // Test page
 import MainVideo from "components/modules/MainVideo";
+import ModalContainer from "components/modules/ModalContainer";
 import * as S from "./style";
 
 const TestPage = (): JSX.Element => {
@@ -38,6 +39,14 @@ const TestPage = (): JSX.Element => {
 
   const [isUploadClicked, setIsUploadClicked] = useState(false);
   const [isMenuClicked, setIsMenuClicked] = useState(false);
+  const [isNotification, setIsNotification] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsNotification(true);
+    }, 3000);
+  }, []);
+
   return (
     <S.Container>
       <S.Elements>
@@ -47,12 +56,13 @@ const TestPage = (): JSX.Element => {
           isMenuClicked={isMenuClicked}
           setIsMenuCliecked={setIsMenuClicked}
           isUploadClicked={isUploadClicked}
-          setUploadClicked={setIsUploadClicked}
+          setIsUploadClicked={setIsUploadClicked}
         />
         <div style={{ display: "inline-block", width: "343px" }} />
         {dummy.map((deep) => (
           <div>
             <MainVideo
+              key={deep.id}
               id={deep.id}
               text={deep.text}
               date={deep.date}
@@ -62,6 +72,14 @@ const TestPage = (): JSX.Element => {
           </div>
         ))}
       </S.Elements>
+      <ModalContainer
+        isUploadClicked={isUploadClicked}
+        setIsUploadClicked={setIsUploadClicked}
+        isMenuClicked={isMenuClicked}
+        setIsMenuClicked={setIsMenuClicked}
+        isNotification={isNotification}
+        setIsNotification={setIsNotification}
+      />
     </S.Container>
   );
 };

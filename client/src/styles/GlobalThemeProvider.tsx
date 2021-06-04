@@ -1,6 +1,8 @@
 import React from "react";
 import { ThemeProvider } from "styled-components";
+import { ModalProvider } from "styled-react-modal";
 import GlobalStyle from "./GlobalStyle";
+import FadingBackground from "./FadingBackground";
 import theme from "./theme";
 
 interface Props {
@@ -11,7 +13,9 @@ const GlobalThemeProvider: React.FC<Props> = ({ children }): JSX.Element => {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
-      {children}
+      <ModalProvider backgroundComponent={FadingBackground}>
+        {children}
+      </ModalProvider>
     </ThemeProvider>
   );
 };
