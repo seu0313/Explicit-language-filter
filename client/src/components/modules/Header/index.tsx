@@ -10,7 +10,7 @@ export interface HeaderProps {
   isMenuClicked: boolean;
   setIsMenuCliecked: (value: boolean) => void;
   isUploadClicked: boolean;
-  setUploadClicked: (value: boolean) => void;
+  setIsUploadClicked: (value: boolean) => void;
 }
 
 const Header: React.FC<HeaderProps> = ({
@@ -19,7 +19,7 @@ const Header: React.FC<HeaderProps> = ({
   isMenuClicked,
   setIsMenuCliecked,
   isUploadClicked,
-  setUploadClicked,
+  setIsUploadClicked,
 }): JSX.Element => {
   return (
     <S.Container>
@@ -27,7 +27,7 @@ const Header: React.FC<HeaderProps> = ({
         <HeaderUploadBtn
           src={src}
           isUploadClicked={isUploadClicked}
-          setUploadClicked={setUploadClicked}
+          setIsUploadClicked={setIsUploadClicked}
         />
       </S.HeaderLeft>
       <S.HeaderCenter>
