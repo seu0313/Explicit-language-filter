@@ -7,7 +7,7 @@ interface Props {
   children?: React.ReactElement | React.ReactElement[] | string;
 }
 
-const GlobalThemeProvider: React.FC<Props> = ({ children }) => {
+const GlobalThemeProvider: React.FC<Props> = ({ children }): JSX.Element => {
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyle />
