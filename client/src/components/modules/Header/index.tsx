@@ -20,7 +20,7 @@ const Header: React.FC<HeaderProps> = ({
   setIsMenuCliecked,
   isUploadClicked,
   setUploadClicked,
-}) => {
+}): JSX.Element => {
   return (
     <S.Container>
       <S.HeaderLeft>

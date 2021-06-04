@@ -8,7 +8,7 @@ import thumbnail2 from "assets/image/thumbnail2.png";
 import MainVideo from "components/modules/MainVideo";
 import * as S from "./style";
 
-const TestPage = () => {
+const TestPage = (): JSX.Element => {
   const dummy = [
     {
       id: "1",

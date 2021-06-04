@@ -12,7 +12,12 @@ export interface MainVideoProps {
   src: string;
 }
 
-const MainVideo: React.FC<MainVideoProps> = ({ id, text, date, src }) => {
+const MainVideo: React.FC<MainVideoProps> = ({
+  id,
+  text,
+  date,
+  src,
+}): JSX.Element => {
   const history = useHistory();
 
   const onClickMainVideo = () => {

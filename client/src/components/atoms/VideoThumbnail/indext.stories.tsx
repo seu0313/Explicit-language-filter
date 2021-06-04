@@ -9,7 +9,7 @@ export default {
   component: VideoThumbnail,
 };
 
-const Template: Story<VideoThumbnailProps> = (args) => (
+const Template: Story<VideoThumbnailProps> = (args): JSX.Element => (
   <GlobalThemeProvider>
     <VideoThumbnail {...args} />
   </GlobalThemeProvider>

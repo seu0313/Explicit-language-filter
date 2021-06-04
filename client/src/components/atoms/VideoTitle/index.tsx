@@ -5,7 +5,7 @@ export interface VideoTitleProps {
   text: string;
 }
 
-const VideoTitle: React.FC<VideoTitleProps> = ({ text }) => {
+const VideoTitle: React.FC<VideoTitleProps> = ({ text }): JSX.Element => {
   return (
     <S.Container>
       <S.VideoTitle>{text}</S.VideoTitle>

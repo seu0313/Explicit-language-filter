@@ -8,7 +8,7 @@ export default {
   component: VideoTitle,
 };
 
-const Template: Story<VideoTitleProps> = (args) => (
+const Template: Story<VideoTitleProps> = (args): JSX.Element => (
   <GlobalThemeProvider>
     <VideoTitle {...args} />
   </GlobalThemeProvider>

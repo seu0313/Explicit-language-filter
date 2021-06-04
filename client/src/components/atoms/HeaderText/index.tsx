@@ -5,7 +5,7 @@ export interface HeaderTextProps {
   text: string;
 }
 
-const HeaderText: React.FC<HeaderTextProps> = ({ text }) => {
+const HeaderText: React.FC<HeaderTextProps> = ({ text }): JSX.Element => {
   const textList = text.split(" ");
 
   return (

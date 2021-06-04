@@ -9,7 +9,7 @@ export default {
   component: Header,
 };
 
-const Template: Story<HeaderProps> = (args) => (
+const Template: Story<HeaderProps> = (args): JSX.Element => (
   <GlobalThemeProvider>
     <Header {...args} />
   </GlobalThemeProvider>

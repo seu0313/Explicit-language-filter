@@ -9,7 +9,7 @@ export default {
   component: HeaderUploadBtn,
 };
 
-const Template: Story<HeaderUploadBtnProps> = (args) => (
+const Template: Story<HeaderUploadBtnProps> = (args): JSX.Element => (
   <GlobalThemeProvider>
     <HeaderUploadBtn {...args} />
   </GlobalThemeProvider>

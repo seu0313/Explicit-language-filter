@@ -9,7 +9,7 @@ export default {
   component: MainVideo,
 };
 
-const Template: Story<MainVideoProps> = (args) => (
+const Template: Story<MainVideoProps> = (args): JSX.Element => (
   <GlobalThemeProvider>
     <MainVideo {...args} />
   </GlobalThemeProvider>

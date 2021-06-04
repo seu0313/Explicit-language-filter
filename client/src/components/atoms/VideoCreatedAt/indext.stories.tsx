@@ -8,7 +8,7 @@ export default {
   component: VideoCreatedAt,
 };
 
-const Template: Story<VideoCreatedAtProps> = (args) => (
+const Template: Story<VideoCreatedAtProps> = (args): JSX.Element => (
   <GlobalThemeProvider>
     <VideoCreatedAt {...args} />
   </GlobalThemeProvider>

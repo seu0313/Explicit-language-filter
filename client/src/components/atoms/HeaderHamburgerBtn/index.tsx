@@ -9,7 +9,7 @@ export interface HeaderHamburgerBtnProps extends S.Props {
 const HeaderHamburgerBtn: React.FC<HeaderHamburgerBtnProps> = ({
   isMenuClicked,
   setIsMenuClicked,
-}) => {
+}): JSX.Element => {
   const onClickMenuBtn = (): void => {
     setIsMenuClicked(!isMenuClicked);
   };

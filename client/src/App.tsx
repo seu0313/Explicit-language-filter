@@ -3,7 +3,7 @@ import GlobalThemeProvider from "styles/GlobalThemeProvider";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import TestPage from "components/templates/TestPage";
 
-const App: React.FC = () => {
+const App: React.FC = (): JSX.Element => {
   return (
     <GlobalThemeProvider>
       <Router>

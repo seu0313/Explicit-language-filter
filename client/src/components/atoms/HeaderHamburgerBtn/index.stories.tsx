@@ -8,7 +8,7 @@ export default {
   component: HeaderHamburgerBtn,
 };
 
-const Template: Story<HeaderHamburgerBtnProps> = (args) => (
+const Template: Story<HeaderHamburgerBtnProps> = (args): JSX.Element => (
   <GlobalThemeProvider>
     <HeaderHamburgerBtn {...args} />
   </GlobalThemeProvider>

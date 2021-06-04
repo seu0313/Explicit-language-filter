@@ -5,7 +5,9 @@ export interface VideoThumbnailProps {
   src: string;
 }
 
-const VideoThumbnail: React.FC<VideoThumbnailProps> = ({ src }) => {
+const VideoThumbnail: React.FC<VideoThumbnailProps> = ({
+  src,
+}): JSX.Element => {
   return (
     <S.Container>
       <S.VideoThumbnail src={src} />

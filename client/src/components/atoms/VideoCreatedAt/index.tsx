@@ -5,7 +5,9 @@ export interface VideoCreatedAtProps {
   date: string;
 }
 
-const VideoCreatedAt: React.FC<VideoCreatedAtProps> = ({ date }) => {
+const VideoCreatedAt: React.FC<VideoCreatedAtProps> = ({
+  date,
+}): JSX.Element => {
   return (
     <S.Container>
       <S.VideoCreatedAt>

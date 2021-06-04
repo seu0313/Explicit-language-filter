@@ -8,7 +8,7 @@ export default {
   component: TestPage,
 };
 
-const Template: Story = () => (
+const Template: Story = (): JSX.Element => (
   <GlobalThemeProvider>
     <TestPage />
   </GlobalThemeProvider>

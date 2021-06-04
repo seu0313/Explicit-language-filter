@@ -11,7 +11,7 @@ const HeaderUploadBtn: React.FC<HeaderUploadBtnProps> = ({
   src,
   isUploadClicked,
   setUploadClicked,
-}) => {
+}): JSX.Element => {
   const onClickUploadBtn = (): void => {
     setUploadClicked(!isUploadClicked);
   };
