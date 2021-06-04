@@ -6,6 +6,8 @@ export interface ModalContainerProps {
   setIsUploadClicked: (value: boolean) => void;
   isMenuClicked: boolean;
   setIsMenuClicked: (value: boolean) => void;
+  isNotification: boolean;
+  setIsNotification: (value: boolean) => void;
 }
 
 const ModalContainer: React.FC<ModalContainerProps> = ({
@@ -13,14 +15,30 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
   setIsUploadClicked,
   isMenuClicked,
   setIsMenuClicked,
+  isNotification,
+  setIsNotification,
 }): JSX.Element => {
   const [opacity, setOpacity] = useState(0);
+  const [modalState, setModalState] = useState("");
+
   const toggleModal = () => {
     setOpacity(0);
     if (isUploadClicked) {
       setIsUploadClicked(!isUploadClicked);
     } else if (isMenuClicked) {
       setIsMenuClicked(!isMenuClicked);
+    } else {
+      setIsNotification(!isNotification);
+    }
+  };
+
+  const beforeOpen = () => {
+    if (isMenuClicked) {
+      setModalState("menu");
+    } else if (isUploadClicked) {
+      setModalState("upload");
+    } else if (isNotification) {
+      setModalState("notification");
     }
   };
 
@@ -41,31 +59,21 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
     <S.Container>
       <S.ModalContainer
         // opacity={opacity}
-        isOpen={isUploadClicked || isMenuClicked}
+        isOpen={isUploadClicked || isMenuClicked || isNotification}
+        beforeOpen={beforeOpen}
         afterOpen={afterOpen}
         beforeClose={beforeClose}
         onBackgroundClick={toggleModal}
         onEscapeKeydown={toggleModal}
         backgroundProps={{ opacity }}
       >
-        {isMenuClicked === true ? (
-          <div>
-            임시
-            <p>isMenuClicked: {String(isMenuClicked)}</p>
-            <button type="button" onClick={toggleModal}>
-              CLOSE
-            </button>
-          </div>
-        ) : null}
-        {isUploadClicked === true ? (
-          <div>
-            임시
-            <p>isUploadClicked: {String(isUploadClicked)}</p>
-            <button type="button" onClick={toggleModal}>
-              CLOSE
-            </button>
-          </div>
-        ) : null}
+        {
+          {
+            menu: <div>menu</div>,
+            upload: <div>upload</div>,
+            notification: <div>notification</div>,
+          }[modalState]
+        }
       </S.ModalContainer>
     </S.Container>
   );

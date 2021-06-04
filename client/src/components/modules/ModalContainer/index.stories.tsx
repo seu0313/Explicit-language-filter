@@ -19,4 +19,5 @@ export const ModalContainerStory = Template.bind({});
 ModalContainerStory.args = {
   isUploadClicked: false,
   isMenuClicked: false,
+  isNotification: false,
 };

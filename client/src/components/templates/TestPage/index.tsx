@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Header from "components/modules/Header";
 import cloud from "assets/image/cloud.png";
 import thumbnail from "assets/image/thumbnail.png";
@@ -39,6 +39,14 @@ const TestPage = (): JSX.Element => {
 
   const [isUploadClicked, setIsUploadClicked] = useState(false);
   const [isMenuClicked, setIsMenuClicked] = useState(false);
+  const [isNotification, setIsNotification] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setIsNotification(true);
+    }, 3000);
+  }, []);
+
   return (
     <S.Container>
       <S.Elements>
@@ -69,6 +77,8 @@ const TestPage = (): JSX.Element => {
         setIsUploadClicked={setIsUploadClicked}
         isMenuClicked={isMenuClicked}
         setIsMenuClicked={setIsMenuClicked}
+        isNotification={isNotification}
+        setIsNotification={setIsNotification}
       />
     </S.Container>
   );
