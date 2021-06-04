@@ -6,6 +6,7 @@ import thumbnail2 from "assets/image/thumbnail2.png";
 
 // Test page
 import MainVideo from "components/modules/MainVideo";
+import ModalContainer from "components/modules/ModalContainer";
 import * as S from "./style";
 
 const TestPage = (): JSX.Element => {
@@ -47,12 +48,13 @@ const TestPage = (): JSX.Element => {
           isMenuClicked={isMenuClicked}
           setIsMenuCliecked={setIsMenuClicked}
           isUploadClicked={isUploadClicked}
-          setUploadClicked={setIsUploadClicked}
+          setIsUploadClicked={setIsUploadClicked}
         />
         <div style={{ display: "inline-block", width: "343px" }} />
         {dummy.map((deep) => (
           <div>
             <MainVideo
+              key={deep.id}
               id={deep.id}
               text={deep.text}
               date={deep.date}
@@ -62,6 +64,12 @@ const TestPage = (): JSX.Element => {
           </div>
         ))}
       </S.Elements>
+      <ModalContainer
+        isUploadClicked={isUploadClicked}
+        setIsUploadClicked={setIsUploadClicked}
+        isMenuClicked={isMenuClicked}
+        setIsMenuClicked={setIsMenuClicked}
+      />
     </S.Container>
   );
 };
