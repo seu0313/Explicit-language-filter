@@ -11,6 +11,7 @@ const color = {
   basicColor: "#00C300",
   hover: "#00E000",
   press: "#00B300",
+  lightShadow: "#e9e9e9",
 };
 
 const size = {
