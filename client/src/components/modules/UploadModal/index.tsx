@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import axios from "axios";
-import ModalLabel from "components/atoms/ModalLabel";
+import Label from "components/atoms/Label";
 import UploadModalTitleInput from "components/atoms/UploadModalTitleInput";
 import UploadModalDescInput from "components/atoms/UploadModalDescInput";
 import UploadModalFileInput from "components/atoms/UploadModalFileInput";
@@ -66,7 +66,7 @@ const UploadModal: React.FC<UploadModalProps> = ({
     <S.Container>
       <S.UploadModal method="POST" action="/" onSubmit={onSubmit}>
         <S.UploadModalHeader>
-          <ModalLabel text="비속어 필터링 하기" />
+          <Label type="text" width="165px" text="비속어 필터링 하기" />
         </S.UploadModalHeader>
         <S.UploadModalContent>
           <S.UploadModalContentElement>

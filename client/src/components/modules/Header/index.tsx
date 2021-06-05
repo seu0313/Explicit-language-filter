@@ -1,7 +1,7 @@
 import React from "react";
 import HeaderHamburgerBtn from "components/atoms/HamburgerBtn";
-import HeaderText from "components/atoms/HeaderText";
-import HeaderUploadBtn from "components/atoms/HeaderUploadBtn";
+import HeaderText from "components/atoms/Label";
+import HeaderUploadBtn from "components/atoms/UploadBtn";
 import * as S from "./style";
 
 export interface HeaderProps {
@@ -31,7 +31,7 @@ const Header: React.FC<HeaderProps> = ({
         />
       </S.HeaderLeft>
       <S.HeaderCenter>
-        <HeaderText text={text} />
+        <HeaderText type="logo" text={text} />
       </S.HeaderCenter>
       <S.HeaderRight>
         <HeaderHamburgerBtn

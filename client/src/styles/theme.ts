@@ -6,12 +6,10 @@ const color = {
   TertiaryText: "#777777",
   primaryAccentTextLight: "#638DFF",
   primaryAccentTextDark: "#3B26FD",
-  button: {
-    Disabled: "#C6C6C6",
-    basicColor: "#00C300",
-    hover: "#00E000",
-    Press: "#00B300",
-  },
+  Disabled: "#C6C6C6",
+  basicColor: "#00C300",
+  hover: "#00E000",
+  Press: "#00B300",
 };
 
 const size = {

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 // Test page
-import TEST from "components/atoms/HamburgerBtn";
+import TEST from "components/atoms/Label";
 // import * as S from "./style";
 
 const TestPage = (): JSX.Element => {
@@ -9,7 +9,7 @@ const TestPage = (): JSX.Element => {
 
   return (
     <div>
-      <TEST isMenuClicked={isMenuClicked} setIsMenuClicked={setIsMenuClicked} />
+      <TEST type="text" size="18px" width="18.75rem" text="LINGO FILTER" />
     </div>
   );
 };
