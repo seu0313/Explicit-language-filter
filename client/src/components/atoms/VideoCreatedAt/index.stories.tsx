@@ -1,14 +1,14 @@
 import React from "react";
 import { Story } from "@storybook/react";
 import GlobalThemeProvider from "styles/GlobalThemeProvider";
-import VideoCreatedAt, { VideoCreatedAtProps } from "./index";
+import VideoCreatedAt, { Props } from "./index";
 
 export default {
   title: "Atoms/VideoCreatedAt",
   component: VideoCreatedAt,
 };
 
-const Template: Story<VideoCreatedAtProps> = (args): JSX.Element => (
+const Template: Story<Props> = (args): JSX.Element => (
   <GlobalThemeProvider>
     <VideoCreatedAt {...args} />
   </GlobalThemeProvider>
@@ -17,5 +17,5 @@ const Template: Story<VideoCreatedAtProps> = (args): JSX.Element => (
 export const VideoCreatedAtStory = Template.bind({});
 
 VideoCreatedAtStory.args = {
-  date: "2021-06-04T14:05:46.384Z",
+  createdAt: "2021-06-04T14:05:46.384Z",
 };

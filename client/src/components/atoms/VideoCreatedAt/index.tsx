@@ -1,19 +1,15 @@
 import React from "react";
 import * as S from "./style";
 
-export interface VideoCreatedAtProps {
-  date: string;
+export interface Props {
+  createdAt: string;
 }
 
-const VideoCreatedAt: React.FC<VideoCreatedAtProps> = ({
-  date,
-}): JSX.Element => {
+const VideoCreatedAt: React.FC<Props> = ({ createdAt }): JSX.Element => {
   return (
-    <S.Container>
-      <S.VideoCreatedAt>
-        <b>Created at:</b> {date}
-      </S.VideoCreatedAt>
-    </S.Container>
+    <S.VideoCreatedAt>
+      <b>Created at:</b> {createdAt}
+    </S.VideoCreatedAt>
   );
 };
 
