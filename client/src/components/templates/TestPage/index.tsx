@@ -9,7 +9,7 @@ const TestPage = (): JSX.Element => {
 
   return (
     <div>
-      <TEST type="text" size="18px" width="18.75rem" text="LINGO FILTER" />
+      <TEST type="text" fontSize="18px" width="18.75rem" text="LINGO FILTER" />
     </div>
   );
 };

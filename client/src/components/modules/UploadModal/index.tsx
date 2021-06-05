@@ -4,7 +4,7 @@ import Label from "components/atoms/Label";
 import UploadModalTitleInput from "components/atoms/UploadModalTitleInput";
 import UploadModalDescInput from "components/atoms/UploadModalDescInput";
 import UploadModalFileInput from "components/atoms/UploadModalFileInput";
-import UploadModalBtn from "components/atoms/UploadModalBtn";
+import UploadModalBtn from "components/atoms/Button";
 import * as S from "./style";
 
 export interface UploadModalProps {
