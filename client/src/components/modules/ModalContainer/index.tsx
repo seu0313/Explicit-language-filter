@@ -71,7 +71,12 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
         {
           {
             menu: <div>menu</div>,
-            upload: <UploadModal text="Upload" />,
+            upload: (
+              <UploadModal
+                isUploadClicked={isUploadClicked}
+                setIsUploadClicked={setIsUploadClicked}
+              />
+            ),
             notification: <div>notification</div>,
           }[modalState]
         }

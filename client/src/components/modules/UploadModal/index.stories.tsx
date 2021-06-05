@@ -15,3 +15,7 @@ const Template: Story<UploadModalProps> = (args): JSX.Element => (
 );
 
 export const UploadModalStory = Template.bind({});
+
+UploadModalStory.args = {
+  isUploadClicked: false,
+};

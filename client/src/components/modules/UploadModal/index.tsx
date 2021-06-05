@@ -8,10 +8,14 @@ import UploadModalBtn from "components/atoms/UploadModalBtn";
 import * as S from "./style";
 
 export interface UploadModalProps {
-  text: string;
+  isUploadClicked: boolean;
+  setIsUploadClicked: (value: boolean) => void;
 }
 
-const UploadModal: React.FC<UploadModalProps> = (): JSX.Element => {
+const UploadModal: React.FC<UploadModalProps> = ({
+  isUploadClicked,
+  setIsUploadClicked,
+}): JSX.Element => {
   const [videoTitle, setVideoTitle] = useState("");
   const [videoDescription, setVideoDescription] = useState("");
   const [videoFile, setVideoFile] = useState(Object);
@@ -22,17 +26,15 @@ const UploadModal: React.FC<UploadModalProps> = (): JSX.Element => {
     setVideoFile(Object);
   };
 
-  const onSubmit = async (e: any) => {
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const url = "http://localhost:8000/api/v1/deeps/";
 
     const formData = new FormData();
     formData.append("title", videoTitle);
     formData.append("description", videoDescription);
     formData.append("videoFile", videoFile);
-    formData.append("processMethod", "null");
 
-    const url = "http://localhost:8000/api/v1/deeps/";
-    console.log(formData);
     try {
       await axios.post(url, formData, {
         headers: {
@@ -40,26 +42,41 @@ const UploadModal: React.FC<UploadModalProps> = (): JSX.Element => {
         },
       });
       stateInitialize();
+      setIsUploadClicked(!isUploadClicked);
     } catch (error) {
       console.log(error);
     }
   };
 
+  const handleVideoTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setVideoTitle(e.currentTarget.value);
+  };
+  const handleVideoDescriptionChange = (
+    e: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    setVideoDescription(e.currentTarget.value);
+  };
+  const handleVideoFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.currentTarget.files;
+    if (!file) return;
+    setVideoFile(file[0]);
+  };
+
   return (
     <S.Container>
-      <S.UploadModal onSubmit={onSubmit}>
+      <S.UploadModal method="POST" action="/" onSubmit={onSubmit}>
         <S.UploadModalHeader>
           <ModalLabel text="비속어 필터링 하기" />
         </S.UploadModalHeader>
         <S.UploadModalContent>
           <S.UploadModalContentElement>
-            <UploadModalTitleInput />
+            <UploadModalTitleInput onChange={handleVideoTitleChange} />
           </S.UploadModalContentElement>
           <S.UploadModalContentElement>
-            <UploadModalDescInput />
+            <UploadModalDescInput onChange={handleVideoDescriptionChange} />
           </S.UploadModalContentElement>
           <S.UploadModalContentElement>
-            <UploadModalFileInput />
+            <UploadModalFileInput onChange={handleVideoFileChange} />
           </S.UploadModalContentElement>
         </S.UploadModalContent>
         <S.UploadModalFooter>
