@@ -1,6 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import VideoTitle from "components/atoms/VideoTitle";
+import Label from "components/atoms/Label";
 import VideoCreatedAt from "components/atoms/VideoCreatedAt";
 import VideoThumbnail from "components/atoms/VideoThumbnail";
 import * as S from "./style";
@@ -30,7 +30,7 @@ const MainVideo: React.FC<MainVideoProps> = ({
       <VideoThumbnail src={src} />
       <S.MetaSection>
         <S.MetaSectionTop>
-          <VideoTitle text={text} />
+          <Label text={text} width="18.75rem" />
         </S.MetaSectionTop>
         <S.MetaSectionBottom>
           <VideoCreatedAt date={date} />

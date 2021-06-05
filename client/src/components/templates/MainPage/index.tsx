@@ -25,26 +25,26 @@ const MainPage = (): JSX.Element => {
   const dummy = [
     {
       id: "1",
-      text: "Mountains | Beautiful Chill Mix WAAAAA~",
-      date: "2021-06-04T14:05:46.384Z",
+      title: "Mountains | Beautiful Chill Mix WAAAAA~",
+      createdAt: "2021-06-04T14:05:46.384Z",
       src: thumbnail2,
     },
     {
       id: "2",
-      text: "Ocean | Beautiful Pacific WAAAAA~",
-      date: "2021-05-23T14:05:46.384Z",
+      title: "Ocean | Beautiful Pacific WAAAAA~",
+      createdAt: "2021-05-23T14:05:46.384Z",
       src: thumbnail,
     },
     {
       id: "3",
-      text: "Ocean | Beautiful Pacific WAAAAA~",
-      date: "2021-05-23T14:05:46.384Z",
+      title: "Ocean | Beautiful Pacific WAAAAA~",
+      createdAt: "2021-05-23T14:05:46.384Z",
       src: thumbnail2,
     },
     {
       id: "4",
-      text: "Ocean | Beautiful Pacific WAAAAA~",
-      date: "2021-05-23T14:05:46.384Z",
+      title: "Ocean | Beautiful Pacific WAAAAA~",
+      createdAt: "2021-05-23T14:05:46.384Z",
       src: thumbnail,
     },
   ];
@@ -65,7 +65,7 @@ const MainPage = (): JSX.Element => {
           setIsUploadClicked={setIsUploadClicked}
         />
         <div style={{ display: "inline-block", width: "343px" }} />
-        {deeps.map((deep) => (
+        {dummy.map((deep) => (
           <div>
             <MainVideo
               key={deep.id}
