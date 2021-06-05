@@ -1,7 +1,7 @@
 import React from "react";
 import HeaderHamburgerBtn from "components/atoms/HamburgerBtn";
 import HeaderText from "components/atoms/Label";
-import HeaderUploadBtn from "components/atoms/UploadBtn";
+import HeaderUploadBtn from "components/atoms/HeaderUploadBtn";
 import * as S from "./style";
 
 export interface HeaderProps {
