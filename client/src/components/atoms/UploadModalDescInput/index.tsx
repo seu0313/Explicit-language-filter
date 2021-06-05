@@ -1,10 +1,20 @@
 import React from "react";
 import * as S from "./style";
 
-const UploadModalDescInput: React.FC = (): JSX.Element => {
+export interface UploadModalDescInputProps {
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+}
+
+const UploadModalDescInput: React.FC<UploadModalDescInputProps> = ({
+  onChange,
+}): JSX.Element => {
   return (
     <S.Container>
-      <S.UploadModalDescInput type="text" placeholder="설명을 입력해주세요*" />
+      <S.UploadModalDescInput
+        type="text"
+        placeholder="설명을 입력해주세요*"
+        onChange={onChange}
+      />
     </S.Container>
   );
 };

@@ -1,15 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 
 // Test page
-import UploadModal from "components/modules/UploadModal";
-import * as S from "./style";
+// import UploadModal from "components/modules/UploadModal";
+// import * as S from "./style";
 
 const TestPage = (): JSX.Element => {
-  return (
-    <div>
-      <UploadModal text="" />
-    </div>
-  );
+  return <div>{/* <UploadModal/> */}</div>;
 };
 
 export default TestPage;

@@ -1,14 +1,14 @@
 import React from "react";
 import { Story } from "@storybook/react";
 import GlobalThemeProvider from "styles/GlobalThemeProvider";
-import UploadModalDescInput from "./index";
+import UploadModalDescInput, { UploadModalDescInputProps } from "./index";
 
 export default {
   title: "Atoms/UploadModalDescInput",
   component: UploadModalDescInput,
 };
 
-const Template: Story = (args): JSX.Element => (
+const Template: Story<UploadModalDescInputProps> = (args): JSX.Element => (
   <GlobalThemeProvider>
     <UploadModalDescInput {...args} />
   </GlobalThemeProvider>

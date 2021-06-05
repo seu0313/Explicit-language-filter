@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import Header from "components/modules/Header";
 import cloud from "assets/image/cloud.png";
 import thumbnail from "assets/image/thumbnail.png";
@@ -8,6 +9,19 @@ import ModalContainer from "components/modules/ModalContainer";
 import * as S from "./style";
 
 const MainPage = (): JSX.Element => {
+  const [deeps, setDeeps] = useState<any[]>([]);
+
+  useEffect(() => {
+    const url = "http://127.0.0.1:8000/api/v1/deeps/";
+    axios
+      .get(url)
+      .then((res) => {
+        setDeeps(res.data.data);
+        // console.log(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
   const dummy = [
     {
       id: "1",
@@ -39,12 +53,6 @@ const MainPage = (): JSX.Element => {
   const [isMenuClicked, setIsMenuClicked] = useState(false);
   const [isNotification, setIsNotification] = useState(false);
 
-  useEffect(() => {
-    // setTimeout(() => {
-    //   setIsNotification(true);
-    // }, 3000);
-  }, []);
-
   return (
     <S.Container>
       <S.Elements>
@@ -57,14 +65,14 @@ const MainPage = (): JSX.Element => {
           setIsUploadClicked={setIsUploadClicked}
         />
         <div style={{ display: "inline-block", width: "343px" }} />
-        {dummy.map((deep) => (
+        {deeps.map((deep) => (
           <div>
             <MainVideo
               key={deep.id}
               id={deep.id}
-              text={deep.text}
-              date={deep.date}
-              src={deep.src}
+              text={deep.title}
+              date={deep.createdAt}
+              src={thumbnail2}
             />
             <div style={{ display: "inline-block", width: "343px" }} />
           </div>
