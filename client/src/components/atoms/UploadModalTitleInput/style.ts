@@ -8,7 +8,7 @@ export const Container = styled.div`
   height: 43px;
 `;
 export const UploadModalTitleInput = styled.input`
-  font-size: 15px;
+  font-size: 13px;
   width: 311px;
   height: 43px;
   background-color: #f2f2f2;

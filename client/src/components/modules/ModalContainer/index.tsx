@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import UploadModal from "components/modules/UploadModal";
 import * as S from "./style";
 
 export interface ModalContainerProps {
@@ -70,7 +71,7 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
         {
           {
             menu: <div>menu</div>,
-            upload: <div>upload</div>,
+            upload: <UploadModal text="Upload" />,
             notification: <div>notification</div>,
           }[modalState]
         }

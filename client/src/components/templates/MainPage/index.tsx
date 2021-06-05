@@ -40,9 +40,9 @@ const MainPage = (): JSX.Element => {
   const [isNotification, setIsNotification] = useState(false);
 
   useEffect(() => {
-    setTimeout(() => {
-      setIsNotification(true);
-    }, 3000);
+    // setTimeout(() => {
+    //   setIsNotification(true);
+    // }, 3000);
   }, []);
 
   return (

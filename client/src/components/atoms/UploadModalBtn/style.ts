@@ -7,11 +7,13 @@ export const Container = styled.div`
   width: 311px;
   height: 43px;
 `;
-export const UploadModalDescInput = styled.input`
-  font-size: 13px;
+export const UploadModalBtn = styled.input`
+  font-weight: bold;
+  font-size: 16px;
+  background-color: #55ce61;
+  cursor: pointer;
+  color: #ffffff;
   width: 311px;
   height: 43px;
-  background-color: #f2f2f2;
-  padding: 5px;
   border: none;
 `;
