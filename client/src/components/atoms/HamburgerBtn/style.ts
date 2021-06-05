@@ -7,8 +7,8 @@ export interface Props {
 
 export const HamburgerWrapper = styled.ul<Props>`
   transform: translate(0%, 0%);
-  width: 26px;
-  height: 26px;
+  width: 24px;
+  height: 24px;
   cursor: pointer;
 
   li:nth-of-type(1) {
