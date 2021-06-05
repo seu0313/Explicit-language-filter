@@ -20,5 +20,5 @@ LabelStory.args = {
   type: "text",
   width: "9rem",
   text: "LINGO FILTER",
-  size: "18px",
+  fontSize: "18px",
 };

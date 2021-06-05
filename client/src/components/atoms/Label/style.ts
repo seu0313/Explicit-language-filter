@@ -2,7 +2,7 @@ import styled from "styled-components";
 import theme from "styles/theme";
 
 export interface Props {
-  size?: string;
+  fontSize?: string;
   width?: string;
 }
 
@@ -18,12 +18,12 @@ export const LabelText = styled.span<Props>`
   overflow: hidden;
   text-overflow: ellipsis;
   font-weight: bold;
-  font-size: ${(props: Props) => props.size};
+  font-size: ${(props: Props) => props.fontSize};
   color: ${theme.color.primaryTextGray};
 `;
 
 export const LabelLogo = styled.span<Props>`
   font-weight: bold;
-  font-size: ${(props: Props) => props.size};
+  font-size: ${(props: Props) => props.fontSize};
   color: ${theme.color.basicColor};
 `;
