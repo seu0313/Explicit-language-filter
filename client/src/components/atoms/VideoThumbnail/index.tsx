@@ -1,18 +1,16 @@
 import React from "react";
 import * as S from "./style";
 
-export interface VideoThumbnailProps {
+export interface Props {
   src: string;
+  width?: string;
 }
 
-const VideoThumbnail: React.FC<VideoThumbnailProps> = ({
+const VideoThumbnail: React.FC<Props> = ({
   src,
+  width = "343px",
 }): JSX.Element => {
-  return (
-    <S.Container>
-      <S.VideoThumbnail src={src} />
-    </S.Container>
-  );
+  return <S.VideoThumbnail src={src} width={width} />;
 };
 
 export default VideoThumbnail;

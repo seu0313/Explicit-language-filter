@@ -1,11 +1,9 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
-  display: flex;
-  justify-content: left;
-  align-items: center;
-  width: 343px;
-`;
-export const VideoThumbnail = styled.img`
-  width: 343px;
+export interface Props {
+  width: string;
+}
+
+export const VideoThumbnail = styled.img<Props>`
+  width: ${(props: Props) => props.width};
 `;
