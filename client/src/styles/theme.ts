@@ -1,15 +1,16 @@
 const color = {
   primaryTextGray: "#111111",
   primaryTextWhite: "#FFFFFF",
-  SecondaryTextGray: "#555555",
-  SecondaryTextWhite: "#B7B7B7",
-  TertiaryText: "#777777",
+  secondaryTextGray: "#555555",
+  secondaryTextWhite: "#B7B7B7",
+  tertiaryText: "#777777",
+  lightGray: "#f2f2f2",
   primaryAccentTextLight: "#638DFF",
   primaryAccentTextDark: "#3B26FD",
-  Disabled: "#C6C6C6",
+  disabled: "#C6C6C6",
   basicColor: "#00C300",
   hover: "#00E000",
-  Press: "#00B300",
+  press: "#00B300",
 };
 
 const size = {
