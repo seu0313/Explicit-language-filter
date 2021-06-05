@@ -1,5 +1,5 @@
 import React from "react";
-import HeaderHamburgerBtn from "components/atoms/HeaderHamburgerBtn";
+import HeaderHamburgerBtn from "components/atoms/HamburgerBtn";
 import HeaderText from "components/atoms/HeaderText";
 import HeaderUploadBtn from "components/atoms/HeaderUploadBtn";
 import * as S from "./style";

@@ -1,11 +1,17 @@
-import React from "react";
+import React, { useState } from "react";
 
 // Test page
-// import UploadModal from "components/modules/UploadModal";
+import TEST from "components/atoms/HamburgerBtn";
 // import * as S from "./style";
 
 const TestPage = (): JSX.Element => {
-  return <div>{/* <UploadModal/> */}</div>;
+  const [isMenuClicked, setIsMenuClicked] = useState(false);
+
+  return (
+    <div>
+      <TEST isMenuClicked={isMenuClicked} setIsMenuClicked={setIsMenuClicked} />
+    </div>
+  );
 };
 
 export default TestPage;
