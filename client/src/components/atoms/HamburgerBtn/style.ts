@@ -1,20 +1,14 @@
 import styled, { css } from "styled-components";
+import theme from "styles/theme";
 
 export interface Props {
   isMenuClicked: boolean;
 }
 
-export const Container = styled.div`
-  display: flex;
-  width: 25px;
-  justify-content: center;
-  align-items: center;
-`;
-
-export const HeaderHamburgerWrapper = styled.ul<Props>`
+export const HamburgerWrapper = styled.ul<Props>`
   transform: translate(0%, 0%);
-  width: 25px;
-  height: 25px;
+  width: 24px;
+  height: 24px;
   cursor: pointer;
 
   li:nth-of-type(1) {
@@ -45,14 +39,14 @@ export const HeaderHamburgerWrapper = styled.ul<Props>`
     `}};
 `;
 
-export const HeaderHamburgerList = styled.li`
+export const HamburgerList = styled.li`
   list-style: none;
   position: absolute;
   left: 0;
-  background: black;
-  width: 90%;
-  height: 3px;
-  border-radius: 6px;
+  background: ${theme.color.primaryTextGray};
+  width: 100%;
+  height: 4px;
+  border-radius: 8px;
   transform: translateY(-50%);
   transition: 0.4s;
 `;

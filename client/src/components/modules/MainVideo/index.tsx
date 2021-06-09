@@ -1,42 +1,38 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
-import VideoTitle from "components/atoms/VideoTitle";
+import Label from "components/atoms/Label";
 import VideoCreatedAt from "components/atoms/VideoCreatedAt";
 import VideoThumbnail from "components/atoms/VideoThumbnail";
 import * as S from "./style";
 
-export interface MainVideoProps {
+export interface Props {
   id: string;
-  text: string;
-  date: string;
+  title: string;
+  createdAt: string;
   src: string;
 }
 
-const MainVideo: React.FC<MainVideoProps> = ({
+const MainVideo: React.FC<Props> = ({
   id,
-  text,
-  date,
+  title,
+  createdAt,
   src,
 }): JSX.Element => {
   const history = useHistory();
 
-  const onClickMainVideo = () => {
+  const onClick = () => {
     const path = `/detail/${id}`;
     history.push(path);
   };
 
   return (
-    <S.Container onClick={onClickMainVideo}>
+    <S.MainVideo onClick={onClick}>
       <VideoThumbnail src={src} />
       <S.MetaSection>
-        <S.MetaSectionTop>
-          <VideoTitle text={text} />
-        </S.MetaSectionTop>
-        <S.MetaSectionBottom>
-          <VideoCreatedAt date={date} />
-        </S.MetaSectionBottom>
+        <Label text={title} width="18.75rem" />
+        <VideoCreatedAt createdAt={createdAt} />
       </S.MetaSection>
-    </S.Container>
+    </S.MainVideo>
   );
 };
 

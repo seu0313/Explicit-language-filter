@@ -1,45 +1,36 @@
 import React from "react";
-import HeaderHamburgerBtn from "components/atoms/HeaderHamburgerBtn";
-import HeaderText from "components/atoms/HeaderText";
+import Label from "components/atoms/Label";
+import HamburgerBtn from "components/atoms/HamburgerBtn";
 import HeaderUploadBtn from "components/atoms/HeaderUploadBtn";
+import cloud from "assets/image/cloud.png";
 import * as S from "./style";
 
-export interface HeaderProps {
-  src: string;
-  text: string;
+export interface Props {
   isMenuClicked: boolean;
-  setIsMenuCliecked: (value: boolean) => void;
   isUploadClicked: boolean;
+  setIsMenuCliecked: (value: boolean) => void;
   setIsUploadClicked: (value: boolean) => void;
 }
 
-const Header: React.FC<HeaderProps> = ({
-  src,
-  text,
+const Header: React.FC<Props> = ({
   isMenuClicked,
-  setIsMenuCliecked,
   isUploadClicked,
+  setIsMenuCliecked,
   setIsUploadClicked,
 }): JSX.Element => {
   return (
-    <S.Container>
-      <S.HeaderLeft>
-        <HeaderUploadBtn
-          src={src}
-          isUploadClicked={isUploadClicked}
-          setIsUploadClicked={setIsUploadClicked}
-        />
-      </S.HeaderLeft>
-      <S.HeaderCenter>
-        <HeaderText text={text} />
-      </S.HeaderCenter>
-      <S.HeaderRight>
-        <HeaderHamburgerBtn
-          isMenuClicked={isMenuClicked}
-          setIsMenuClicked={setIsMenuCliecked}
-        />
-      </S.HeaderRight>
-    </S.Container>
+    <S.Header>
+      <HeaderUploadBtn
+        src={cloud}
+        isUploadClicked={isUploadClicked}
+        setIsUploadClicked={setIsUploadClicked}
+      />
+      <Label type="logo" text="LINGO FILTER" />
+      <HamburgerBtn
+        isMenuClicked={isMenuClicked}
+        setIsMenuClicked={setIsMenuCliecked}
+      />
+    </S.Header>
   );
 };
 

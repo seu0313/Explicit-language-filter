@@ -1,22 +1,24 @@
 import React from "react";
 import { Story } from "@storybook/react";
 import GlobalThemeProvider from "styles/GlobalThemeProvider";
-import Header, { Props } from "./index";
+import Label, { Props } from "./index";
 
 export default {
-  title: "Modules/Header",
-  component: Header,
+  title: "Atoms/Label",
+  component: Label,
 };
 
 const Template: Story<Props> = (args): JSX.Element => (
   <GlobalThemeProvider>
-    <Header {...args} />
+    <Label {...args} />
   </GlobalThemeProvider>
 );
 
-export const HeaderStory = Template.bind({});
+export const LabelStory = Template.bind({});
 
-HeaderStory.args = {
-  isMenuClicked: false,
-  isUploadClicked: false,
+LabelStory.args = {
+  type: "text",
+  width: "9rem",
+  text: "LINGO FILTER",
+  fontSize: "18px",
 };

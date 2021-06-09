@@ -1,30 +1,12 @@
 import styled from "styled-components";
+import theme from "styles/theme";
 
-export const Container = styled.div`
+export const Header = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
-  width: 343px;
+  width: ${theme.size.customWidth};
   height: 67px;
   border-radius: 10px;
-  box-shadow: 0px 4px 10px #e9e9e9;
-`;
-
-export const HeaderLeft = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 86px;
-`;
-export const HeaderCenter = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 171px;
-`;
-export const HeaderRight = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 86px;
+  box-shadow: 0px 4px 10px ${theme.color.lightShadow};
 `;

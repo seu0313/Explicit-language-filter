@@ -1,22 +1,21 @@
 import React from "react";
 import { Story } from "@storybook/react";
 import GlobalThemeProvider from "styles/GlobalThemeProvider";
-import Header, { Props } from "./index";
+import HamburgerBtn, { Props } from "./index";
 
 export default {
-  title: "Modules/Header",
-  component: Header,
+  title: "Atoms/HamburgerBtn",
+  component: HamburgerBtn,
 };
 
 const Template: Story<Props> = (args): JSX.Element => (
   <GlobalThemeProvider>
-    <Header {...args} />
+    <HamburgerBtn {...args} />
   </GlobalThemeProvider>
 );
 
-export const HeaderStory = Template.bind({});
+export const HamburgerBtnStory = Template.bind({});
 
-HeaderStory.args = {
+HamburgerBtnStory.args = {
   isMenuClicked: false,
-  isUploadClicked: false,
 };

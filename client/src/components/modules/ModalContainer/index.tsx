@@ -7,8 +7,7 @@ export interface ModalContainerProps {
   setIsUploadClicked: (value: boolean) => void;
   isMenuClicked: boolean;
   setIsMenuClicked: (value: boolean) => void;
-  isNotification: boolean;
-  setIsNotification: (value: boolean) => void;
+  renderHandler: () => void;
 }
 
 const ModalContainer: React.FC<ModalContainerProps> = ({
@@ -16,8 +15,7 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
   setIsUploadClicked,
   isMenuClicked,
   setIsMenuClicked,
-  isNotification,
-  setIsNotification,
+  renderHandler,
 }): JSX.Element => {
   const [opacity, setOpacity] = useState(0);
   const [modalState, setModalState] = useState("");
@@ -26,20 +24,16 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
     setOpacity(0);
     if (isUploadClicked) {
       setIsUploadClicked(!isUploadClicked);
-    } else if (isMenuClicked) {
-      setIsMenuClicked(!isMenuClicked);
     } else {
-      setIsNotification(!isNotification);
+      setIsMenuClicked(!isMenuClicked);
     }
   };
 
   const beforeOpen = () => {
     if (isMenuClicked) {
       setModalState("menu");
-    } else if (isUploadClicked) {
+    } else {
       setModalState("upload");
-    } else if (isNotification) {
-      setModalState("notification");
     }
   };
 
@@ -57,31 +51,31 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
   };
 
   return (
-    <S.Container>
-      <S.ModalContainer
-        // opacity={opacity}
-        isOpen={isUploadClicked || isMenuClicked || isNotification}
-        beforeOpen={beforeOpen}
-        afterOpen={afterOpen}
-        beforeClose={beforeClose}
-        onBackgroundClick={toggleModal}
-        onEscapeKeydown={toggleModal}
-        backgroundProps={{ opacity }}
-      >
+    // <S.Container>
+    <S.ModalContainer
+      // opacity={opacity}
+      isOpen={isUploadClicked || isMenuClicked}
+      beforeOpen={beforeOpen}
+      afterOpen={afterOpen}
+      beforeClose={beforeClose}
+      onBackgroundClick={toggleModal}
+      onEscapeKeydown={toggleModal}
+      backgroundProps={{ opacity }}
+    >
+      {
         {
-          {
-            menu: <div>menu</div>,
-            upload: (
-              <UploadModal
-                isUploadClicked={isUploadClicked}
-                setIsUploadClicked={setIsUploadClicked}
-              />
-            ),
-            notification: <div>notification</div>,
-          }[modalState]
-        }
-      </S.ModalContainer>
-    </S.Container>
+          menu: <div>menu</div>,
+          upload: (
+            <UploadModal
+              isUploadClicked={isUploadClicked}
+              setIsUploadClicked={setIsUploadClicked}
+              renderHandler={renderHandler}
+            />
+          ),
+        }[modalState]
+      }
+    </S.ModalContainer>
+    // </S.Container>
   );
 };
 
