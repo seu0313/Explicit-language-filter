@@ -5,7 +5,7 @@ export const Header = styled.div`
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  width: 343px;
+  width: ${theme.size.customWidth};
   height: 67px;
   border-radius: 10px;
   box-shadow: 0px 4px 10px ${theme.color.lightShadow};

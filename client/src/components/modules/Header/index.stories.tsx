@@ -1,6 +1,5 @@
 import React from "react";
 import { Story } from "@storybook/react";
-import cloud from "assets/image/cloud.png";
 import GlobalThemeProvider from "styles/GlobalThemeProvider";
 import Header, { Props } from "./index";
 
@@ -18,8 +17,6 @@ const Template: Story<Props> = (args): JSX.Element => (
 export const HeaderStory = Template.bind({});
 
 HeaderStory.args = {
-  src: cloud,
-  text: "LINGO FILTER",
   isMenuClicked: false,
   isUploadClicked: false,
 };

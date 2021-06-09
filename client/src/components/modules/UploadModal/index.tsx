@@ -8,11 +8,13 @@ import * as S from "./style";
 export interface UploadModalProps {
   isUploadClicked: boolean;
   setIsUploadClicked: (value: boolean) => void;
+  renderHandler: () => void;
 }
 
 const UploadModal: React.FC<UploadModalProps> = ({
   isUploadClicked,
   setIsUploadClicked,
+  renderHandler,
 }): JSX.Element => {
   const [videoTitle, setVideoTitle] = useState("");
   const [videoDescription, setVideoDescription] = useState("");
@@ -32,8 +34,11 @@ const UploadModal: React.FC<UploadModalProps> = ({
       stateInitialize();
       setIsUploadClicked(!isUploadClicked);
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.log(error);
     }
+
+    renderHandler();
   };
 
   const handleVideoTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {

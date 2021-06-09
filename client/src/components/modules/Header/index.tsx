@@ -2,11 +2,10 @@ import React from "react";
 import Label from "components/atoms/Label";
 import HamburgerBtn from "components/atoms/HamburgerBtn";
 import HeaderUploadBtn from "components/atoms/HeaderUploadBtn";
+import cloud from "assets/image/cloud.png";
 import * as S from "./style";
 
 export interface Props {
-  src: string;
-  text: string;
   isMenuClicked: boolean;
   isUploadClicked: boolean;
   setIsMenuCliecked: (value: boolean) => void;
@@ -14,8 +13,6 @@ export interface Props {
 }
 
 const Header: React.FC<Props> = ({
-  src,
-  text,
   isMenuClicked,
   isUploadClicked,
   setIsMenuCliecked,
@@ -24,11 +21,11 @@ const Header: React.FC<Props> = ({
   return (
     <S.Header>
       <HeaderUploadBtn
-        src={src}
+        src={cloud}
         isUploadClicked={isUploadClicked}
         setIsUploadClicked={setIsUploadClicked}
       />
-      <Label type="logo" text={text} />
+      <Label type="logo" text="LINGO FILTER" />
       <HamburgerBtn
         isMenuClicked={isMenuClicked}
         setIsMenuClicked={setIsMenuCliecked}

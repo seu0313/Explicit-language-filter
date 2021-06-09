@@ -1,11 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 
 // Test page
 import TEST from "components/atoms/Label";
 // import * as S from "./style";
 
 const TestPage = (): JSX.Element => {
-  const [isMenuClicked, setIsMenuClicked] = useState(false);
+  // const [isMenuClicked, setIsMenuClicked] = useState(false);
 
   return (
     <div>
