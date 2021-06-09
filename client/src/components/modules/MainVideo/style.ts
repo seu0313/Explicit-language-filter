@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
-export const Container = styled.div`
-  display: inline-block;
+export const MainVideo = styled.div`
+  display: flex;
+  flex-direction: column;
   justify-content: left;
   align-items: center;
   border-radius: 10px;
@@ -11,19 +12,9 @@ export const Container = styled.div`
 `;
 
 export const MetaSection = styled.div`
-  display: inline-block;
-  width: 343px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
   height: 78px;
-`;
-
-export const MetaSectionTop = styled.div`
-  width: 343px;
-  margin-left: 20px;
-  margin-top: 14px;
-`;
-
-export const MetaSectionBottom = styled.div`
-  width: 343px;
-  margin-left: 20px;
-  margin-top: 16px;
 `;
