@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import axios from "axios";
 import Label from "components/atoms/Label";
 import Input from "components/atoms/Input";
 import UploadModalBtn from "components/atoms/Button";
+import { uploadToServerAPI } from "apis/uploadToServerAPI";
 import * as S from "./style";
 
 export interface UploadModalProps {
@@ -26,19 +26,9 @@ const UploadModal: React.FC<UploadModalProps> = ({
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const url = "http://localhost:8000/api/v1/deeps/";
-
-    const formData = new FormData();
-    formData.append("title", videoTitle);
-    formData.append("description", videoDescription);
-    formData.append("videoFile", videoFile);
 
     try {
-      await axios.post(url, formData, {
-        headers: {
-          "content-type": "multipart/form-data",
-        },
-      });
+      await uploadToServerAPI({ videoTitle, videoDescription, videoFile });
       stateInitialize();
       setIsUploadClicked(!isUploadClicked);
     } catch (error) {
@@ -61,37 +51,23 @@ const UploadModal: React.FC<UploadModalProps> = ({
   };
 
   return (
-    <S.Container>
-      <S.UploadModal method="POST" action="/" onSubmit={onSubmit}>
-        <S.UploadModalHeader>
-          <Label type="text" width="165px" text="비속어 필터링 하기" />
-        </S.UploadModalHeader>
-        <S.UploadModalContent>
-          <S.UploadModalContentElement>
-            <Input
-              onChange={handleVideoTitleChange}
-              placeholder="제목을 입력해주세요*"
-            />
-          </S.UploadModalContentElement>
-          <S.UploadModalContentElement>
-            <Input
-              onChange={handleVideoDescriptionChange}
-              placeholder="설명을 입력해주세요*"
-            />
-          </S.UploadModalContentElement>
-          <S.UploadModalContentElement>
-            <Input
-              type="file"
-              accept="video/mp4, video/avi, video/mov"
-              onChange={handleVideoFileChange}
-            />
-          </S.UploadModalContentElement>
-        </S.UploadModalContent>
-        <S.UploadModalFooter>
-          <UploadModalBtn />
-        </S.UploadModalFooter>
-      </S.UploadModal>
-    </S.Container>
+    <S.UploadModal method="POST" action="/" onSubmit={onSubmit}>
+      <Label type="text" width="165px" text="비속어 필터링 하기" />
+      <Input
+        onChange={handleVideoTitleChange}
+        placeholder="제목을 입력해주세요*"
+      />
+      <Input
+        onChange={handleVideoDescriptionChange}
+        placeholder="설명을 입력해주세요*"
+      />
+      <Input
+        type="file"
+        accept="video/mp4, video/avi, video/mov"
+        onChange={handleVideoFileChange}
+      />
+      <UploadModalBtn />
+    </S.UploadModal>
   );
 };
 

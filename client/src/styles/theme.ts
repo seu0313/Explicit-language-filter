@@ -19,6 +19,7 @@ const size = {
   tablet: "768px",
   labtop: "1024px",
   desktop: "1440px",
+  customWidth: "343px",
 };
 
 export default {
