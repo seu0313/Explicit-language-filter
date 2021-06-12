@@ -14,8 +14,8 @@ const Label: React.FC<Props> = ({
   text,
   width = "9rem",
 }): JSX.Element => {
-  const logotitle = text.split(" ");
   if (type === "logo") {
+    const logotitle = text.split(" ");
     return (
       <S.Label width={width}>
         <S.LabelText fontSize={fontSize}>{logotitle[0]}</S.LabelText>
