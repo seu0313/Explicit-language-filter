@@ -1,9 +1,9 @@
 import React from "react";
 import Label from "components/atoms/Label";
+import Text from "components/atoms/Text";
 import { Player } from "video-react";
 // import "node_modules/video-react/dist/video-react.css";
 import VideoCreatedAt from "components/atoms/VideoCreatedAt";
-import VideoThumbnail from "components/atoms/VideoThumbnail";
 import * as S from "./style";
 
 export interface Props {
@@ -23,10 +23,10 @@ const DetailVideo: React.FC<Props> = ({
 }): JSX.Element => {
   return (
     <S.DetailVideo>
-      <Player width="343px" height="200px" src={src} />
+      <Player key={id} width="343px" height="200px" src={src} />
       <S.MetaSection>
         <Label text={title} width="18.75rem" />
-        <Label text={description} width="18.75rem" />
+        <Text text={description} />
         <VideoCreatedAt createdAt={createdAt} />
       </S.MetaSection>
     </S.DetailVideo>

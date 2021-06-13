@@ -17,5 +17,5 @@ export const MetaSection = styled.div`
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
-  height: 78px;
+  height: 100px;
 `;
