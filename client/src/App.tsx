@@ -4,7 +4,6 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Header from "components/modules/Header";
 import MainPage from "components/templates/MainPage";
 import DetailPage from "components/templates/DetailPage";
-import TestPage from "components/templates/TestPage";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -30,7 +29,6 @@ const App: React.FC = (): JSX.Element => {
           />
         </Container>
         <Switch>
-          <Route path="/test" exact component={TestPage} />
           <Route path="/detail/:id" exact component={DetailPage} />
           <Route path="/" exact>
             <MainPage isMenuClicked={isMenuClicked} setIsMenuClicked={setIsMenuClicked} isUploadClicked={isUploadClicked} setIsUploadClicked={setIsUploadClicked}/>

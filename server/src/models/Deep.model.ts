@@ -27,6 +27,9 @@ export class Deep {
   videoFile: string;
 
   @Column({ default: null })
+  src: string;
+
+  @Column({ default: null })
   videoDuration: number;
 
   @Column({ default: null })

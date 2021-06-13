@@ -59,7 +59,7 @@ const MainPage: React.FC<Props> = ({ isMenuClicked, setIsMenuClicked, isUploadCl
               id={deep.id}
               title={deep.title}
               createdAt={deep.createdAt}
-              src={thumb}
+              src={deep.src}
             />
             <br/>
           </Link>
