@@ -7,15 +7,13 @@ export interface Props {
 
 export const TextWrapped = styled.div<Props>`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: start;
   align-items: center;
+  
 `;
 
 export const Text = styled.span<Props>`
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  font-weight: bold;
+  width: 300px;
   font-size: ${(props: Props) => props.fontSize};
   color: ${theme.color.secondaryTextGray};
 `;

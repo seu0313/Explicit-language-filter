@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, Redirect } from "react-router-dom";
 import axios from "axios";
 import DetailVideo from "components/modules/DetailVideo";
 import * as S from "./style";
@@ -14,7 +14,6 @@ const DetailPage = (): JSX.Element => {
 
       try {
         const res = await axios.get(url);
-        // console.log(res.data.data);
         setDeep(res.data.data);
       } catch (error) {
         console.log(error);
@@ -24,6 +23,18 @@ const DetailPage = (): JSX.Element => {
     fetchData();
   }, []);
 
+  const onClickDelete = async () => {
+    const url = `http://127.0.0.1:8000/api/v1/deeps/${id}`;
+
+      try {
+        await axios.delete(url);
+        setDeep([]);
+        window.location.href = "/"
+      } catch (error) {
+        console.log(error);
+      }
+  }
+
   return (
     <S.Container>
       <DetailVideo
@@ -32,6 +43,7 @@ const DetailPage = (): JSX.Element => {
         description={deep.description}
         createdAt={deep.createdAt}
         src={deep.videoFile}
+        onClick={onClickDelete}
       />
     </S.Container>
   );

@@ -7,6 +7,7 @@ export interface Props {
   height?: string;
   value?: string;
   fontSize?: string;
+  onClick?: () => void
 }
 
 const Button: React.FC<Props> = ({
@@ -15,6 +16,7 @@ const Button: React.FC<Props> = ({
   height = "43px",
   value = "제출",
   fontSize = "16px",
+  onClick,
 }): JSX.Element => {
   return (
     <S.Button
@@ -23,6 +25,7 @@ const Button: React.FC<Props> = ({
       width={width}
       height={height}
       fontSize={fontSize}
+      onClick={onClick}
     />
   );
 };

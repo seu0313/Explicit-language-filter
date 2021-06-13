@@ -1,17 +1,22 @@
 import React from "react";
 import { Story } from "@storybook/react";
 import GlobalThemeProvider from "styles/GlobalThemeProvider";
-import MainPage from "./index";
+import MainPage, { Props } from "./index";
 
 export default {
   title: "Templates/MainPage",
   component: MainPage,
 };
 
-const Template: Story = (): JSX.Element => (
+const Template: Story<Props> = (args): JSX.Element => (
   <GlobalThemeProvider>
-    <MainPage />
+    <MainPage {...args} />
   </GlobalThemeProvider>
 );
 
 export const MainPageStory = Template.bind({});
+
+MainPageStory.args = {
+  isMenuClicked: false,
+  isUploadClicked: false,
+};

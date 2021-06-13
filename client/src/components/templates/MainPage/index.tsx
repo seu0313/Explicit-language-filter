@@ -6,7 +6,6 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 import thumb from "assets/image/thumbnail2.png";
-import Header from "components/modules/Header";
 import MainVideo from "components/modules/MainVideo";
 import ModalContainer from "components/modules/ModalContainer";
 import * as S from "./style";
@@ -14,7 +13,14 @@ import * as S from "./style";
 axios.defaults.xsrfCookieName = "csrftoken";
 axios.defaults.xsrfHeaderName = "X-CSRFToken";
 
-const MainPage = (): JSX.Element => {
+export interface Props {
+  isMenuClicked: boolean
+  setIsMenuClicked: (value: boolean) => void
+  isUploadClicked: boolean
+  setIsUploadClicked: (value: boolean) => void
+}
+
+const MainPage: React.FC<Props> = ({ isMenuClicked, setIsMenuClicked, isUploadClicked, setIsUploadClicked}): JSX.Element => {
   const [deeps, setDeeps] = useState<any[]>([]);
 
   useEffect(() => {
@@ -43,44 +49,8 @@ const MainPage = (): JSX.Element => {
     }
   };
 
-  const dummy = [
-    {
-      id: "1",
-      title: "Mountains | Beautiful Chill Mix WAAAAA~",
-      createdAt: "2021-06-04T14:05:46.384Z",
-      src: thumb,
-    },
-    {
-      id: "2",
-      title: "Ocean | Beautiful Pacific WAAAAA~",
-      createdAt: "2021-05-23T14:05:46.384Z",
-      src: thumb,
-    },
-    {
-      id: "3",
-      title: "Ocean | Beautiful Pacific WAAAAA~",
-      createdAt: "2021-05-23T14:05:46.384Z",
-      src: thumb,
-    },
-    {
-      id: "4",
-      title: "Ocean | Beautiful Pacific WAAAAA~",
-      createdAt: "2021-05-23T14:05:46.384Z",
-      src: thumb,
-    },
-  ];
-
-  const [isUploadClicked, setIsUploadClicked] = useState(false);
-  const [isMenuClicked, setIsMenuClicked] = useState(false);
-
   return (
     <S.Container>
-      <Header
-        isMenuClicked={isMenuClicked}
-        setIsMenuCliecked={setIsMenuClicked}
-        isUploadClicked={isUploadClicked}
-        setIsUploadClicked={setIsUploadClicked}
-      />
       <S.DeepWrapped>
         {deeps.map((deep) => (
           <Link to={`/detail/${deep.id}/`}>
@@ -91,6 +61,7 @@ const MainPage = (): JSX.Element => {
               createdAt={deep.createdAt}
               src={thumb}
             />
+            <br/>
           </Link>
         ))}
       </S.DeepWrapped>

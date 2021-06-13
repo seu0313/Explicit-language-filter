@@ -2,9 +2,7 @@ import React from "react";
 import * as S from "./style";
 
 export interface Props {
-  type?: string;
   fontSize?: string;
-  width?: string;
   text: string;
 }
 
