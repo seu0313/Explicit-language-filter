@@ -2,13 +2,14 @@ import styled from "styled-components";
 import theme from "styles/theme";
 
 export interface Props {
+  type?: string;
   fontSize?: string;
   width?: string;
 }
 
 export const Label = styled.div<Props>`
   display: flex;
-  justify-content: space-evenly;
+  justify-content: ${(props: Props) => props.type === "logo" ? "space-evenly" : "start"};
   align-items: center;
   width: ${(props: Props) => props.width};
 `;
