@@ -14,20 +14,12 @@ const app = express();
 app.use(morgan(morganType));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(
-  cors({
-    origin: clientURL,
-    methods: ["GET", "POST", "PATCH", "DELETE"],
-    credentials: true,
-  })
-);
+app.use(cors());
 
 // cors 체크 모듈
 const corsCheck = (req: Request, callback: any) => {
   let corsOptions;
-  const acceptList: any[] = [
-    // ... url list,
-  ];
+  const acceptList: any[] = [];
   if (acceptList.indexOf(req.header("Origin")) !== -1) {
     corsOptions = { origin: true };
   } else {
@@ -37,7 +29,7 @@ const corsCheck = (req: Request, callback: any) => {
 };
 
 // router settings (will change to v2)
-app.use("/api/v1", cors(corsCheck), router);
+app.use("/api/v1", router);
 app.use("/uploads", express.static("uploads"));
 
 // error handlers

@@ -14,10 +14,10 @@ const Label: React.FC<Props> = ({
   text,
   width = "9rem",
 }): JSX.Element => {
-  const logotitle = text.split(" ");
   if (type === "logo") {
+    const logotitle = text.split(" ");
     return (
-      <S.Label width={width}>
+      <S.Label type={type} width={width}>
         <S.LabelText fontSize={fontSize}>{logotitle[0]}</S.LabelText>
         <S.LabelLogo fontSize={fontSize}>{logotitle[1]}</S.LabelLogo>
       </S.Label>
@@ -25,7 +25,7 @@ const Label: React.FC<Props> = ({
   }
 
   return (
-    <S.Label width={width}>
+    <S.Label type={type} width={width}>
       <S.LabelText fontSize={fontSize}>{text}</S.LabelText>
     </S.Label>
   );
