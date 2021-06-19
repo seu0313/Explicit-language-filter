@@ -1,6 +1,7 @@
 import { Deep } from "@models/deep.model";
-import path from 'path';
-import ThumnailGenerator from 'video-thumbnail-generator';
+import path from "path";
+import childProcess from "child_process";
+import ThumnailGenerator from "video-thumbnail-generator";
 import { resError, resMSG } from "@utils/module";
 import { getRepository } from "typeorm";
 import { serverURL } from "../config/index";
@@ -26,16 +27,16 @@ export const findOneService = async (reqId: string) => {
 
 // Generate Deep data.
 export const createDeepService = async (reqBody: any, reqFile: any) => {
-  const BASE_ROOT = path.dirname(path.dirname(__dirname))
-  const UPLOADS = path.join(BASE_ROOT, 'uploads')
+  const BASE_ROOT = path.dirname(path.dirname(__dirname));
+  const UPLOADS = path.join(BASE_ROOT, "uploads");
 
   const tg = new ThumnailGenerator({
     sourcePath: `${UPLOADS}/${reqFile["filename"]}`,
     thumbnailPath: `${UPLOADS}/thumb/`,
-  })
+  });
 
-  const thumbnail = await tg.generateOneByPercent(50)
-  console.log(thumbnail)
+  const thumbnail = await tg.generateOneByPercent(50);
+  console.log(thumbnail);
 
   const { title, description, processMethod } = reqBody;
   const deepRecord = getRepository(Deep).create({
@@ -43,10 +44,22 @@ export const createDeepService = async (reqBody: any, reqFile: any) => {
     description,
     processMethod,
     videoFile: `${serverURL}/uploads/${reqFile["filename"]}`,
-    src: `${serverURL}/uploads/thumb/${thumbnail}`
+    src: `${serverURL}/uploads/thumb/${thumbnail}`,
   });
   const result = await getRepository(Deep).save(deepRecord);
   return result;
+};
+
+export const getDeepFromPython = async () => {
+  const result = childProcess.spawn("python", [
+    "/Users/lingo/Desktop/Bad-word-filter/server/src/services/python.py",
+  ]);
+  console.log("실행");
+
+  result.stdout.on("data", (data) => {
+    console.log(data.toString());
+  });
+  console.log("실행2");
 };
 
 // Update Deep data.

@@ -21,6 +21,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# google key
+google.json
+
 # vscode
 .vscode/*
 
