@@ -25,8 +25,8 @@ def transcribe_local(speech_file: str):
 
         audio = speech.RecognitionAudio(content=content)
         config = speech.RecognitionConfig(
-            encoding=speech.RecognitionConfig.AudioEncoding.ENCODING_UNSPECIFIED,
-            sample_rate_hertz=44100,
+            encoding=speech.RecognitionConfig.AudioEncoding.LINEAR16,
+            sample_rate_hertz=16000,
             language_code="ko-KR",
             enable_word_time_offsets= True,
             use_enhanced= True

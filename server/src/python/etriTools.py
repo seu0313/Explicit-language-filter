@@ -15,7 +15,7 @@ def transcribe_etri(audio_file_path: str):
     @params `"~/src/python/temp2.wav"` \\
     @returns `Response data` """
 
-    etri_json_file = os.path.join(BASE_DIR, "etri.json")
+    etri_json_file = os.path.join(BASE_DIR, "deep/etri.json")
     etri_key = json.loads(open(etri_json_file).read())
 
     access_key = etri_key["private_key"]
