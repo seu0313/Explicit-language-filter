@@ -6,15 +6,14 @@ from google.auth.exceptions import DefaultCredentialsError
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+
 def transcribe_local(speech_file: str):
-    '''
-    - 구글 클라우드 플랫폼 STT 짧은 음성\n
+    """구글 클라우드 플랫폼 SpeechToText를 사용하여 `짧은 오디오 (1분 미만)`에서 `한국어` 텍스트를 추출합니다.
+
     @status `Active Review` \\
     @params `"~/src/python/temp2.wav"` \\
-    @returns `Response data` \\
-    @author `seu0313`
-    @since `2.0.0`
-    '''
+    @returns `Response data` """
+
     try:
         register_gcp_credentials()
 
@@ -34,20 +33,25 @@ def transcribe_local(speech_file: str):
         )
 
         response = client.recognize(config=config, audio=audio)
+
         return response
+
+    except DefaultCredentialsError:
+        print("Credential error")
+        return None
 
     except Exception as Error:
         print(Error)
+        return None
+
 
 def transcribe_gcs(gcs_uri: str):
-    '''
-    - 구글 클라우드 플랫폼 STT 긴 음성 \n
+    """구글 클라우드 플랫폼 SpeechToText를 사용하여 `긴 오디오`에서 `한국어` 텍스트를 추출합니다.
+
     @status `Active Review` \\
     @params `"gs://버킷이름/파일명"` \\
-    @returns `Response data` \\
-    @author `seu0313`
-    @since `2.0.0`
-    '''
+    @returns `Response data` """
+
     try:
         register_gcp_credentials()
         
@@ -65,20 +69,25 @@ def transcribe_gcs(gcs_uri: str):
 
         operation = client.long_running_recognize(config=config, audio=audio)
         response = operation.result()
+
         return response
+
+    except DefaultCredentialsError:
+        print("Credential error")
+        return None
 
     except Exception as Error:
         print(Error)
+        return None
 
-def google_process_response(response):
-    '''
-    - 구글 STT Response 처리 로직 \n
+
+def process_google_response(response):
+    """구글 클라우드 플랫폼 SpeechToText를 사용하여 추출한 `한국어` 텍스트를 처리합니다.
+
     @status `Scheduled` \\
     @params `Response data` \\
-    @returns `None` \\
-    @author `seu0313`
-    @since `2.0.0`
-    '''
+    @returns `None` """
+
     imeline, swear_timeline, words = [], [], []
     
     try:
@@ -102,17 +111,18 @@ def google_process_response(response):
                         ))
     except Exception as err:
         print(err)
+        return None
 
     return timeline, swear_timeline, words
     
+
 def register_gcp_credentials():
-    '''
-    - 구글 클라우드 인증 파일 환경 변수에 등록 \n
-    @status `Accepted` \\
-    @author `seu0313`
-    @since `2.0.0`
-    '''
-    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.join(BASE_DIR, 'google.json')
+    """구글 클라우드 인증 파일(json)을 사용하여 환경 변수에 등록합니다.
+    
+    @status `Accepted` """
+    
+    os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = os.path.join(BASE_DIR, 'deep/google.json')
+
 
 if __name__ == "__main__":
     pass

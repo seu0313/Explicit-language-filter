@@ -1,18 +1,18 @@
 import os
+import numpy as np
 from pydub import AudioSegment
 from moviepy.editor import VideoClip, VideoFileClip, AudioClip, AudioFileClip
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+
 def create_processed_video(video_file: str):
-    '''
-    - 영상과 처리된 비속어 음성 합성 \n
+    """ 영상과 처리된 비속어 음성 합성
+
     @status `Scheduled` \\
     @params `None` \\
-    @returns `None` \\
-    @author `seu0313`
-    @since `2.0.0`
-    '''
+    @returns `None` """
+    
     video_clip = VideoFileClip(video_file.temporary_file_path())
     video_clip.write_videofile(os.path.join(MEDIA_DIR, 'temp.mp4'))
     audio_clip = video_clip.audio
@@ -74,16 +74,15 @@ def create_processed_video(video_file: str):
 
     return (video_file, durations)
 
-def create_beep(duration: int):
-    '''
-    - 비프음 생성 모듈 \n
+
+def create_beep(duration: int, sps: int=16000):
+    """비프음 생성 모듈입니다. sps은 `16khz`을 기본값으로 되어있으며 `durantion(ms)` 길이의 삐- 오디오를 생성합니다.
+
     @status `Accepted` \\
     @params `duration(ms): int` \\
-    @returns `beep audio file` \\
-    @author `seu0313`
-    @since `2.0.0`
-    '''
-    sps = 44100 # 44.1khz
+    @params `sps(hz): int=16000` \\
+    @returns `beep audio file` """
+
     freq_hz = 1000.0
     vol = 1
 
@@ -93,9 +92,19 @@ def create_beep(duration: int):
     wf_int = np.int16(wf_quiet * 32767)
 
     beep = AudioSegment(
-        wf_int.tobytes(), 
+        wf_int.tobytes(),
         frame_rate=sps,
         sample_width=wf_int.dtype.itemsize, 
         channels=1
     )
+    
     return beep
+
+
+if __name__ == "__main__":
+    # beep = create_beep(1000, sps=44100)
+    # beep.export("./path44100.wav", format="wav")
+
+    import nlpTools
+
+    print(nlpTools.create_char_dict())

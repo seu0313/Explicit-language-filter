@@ -14,19 +14,19 @@ number = list("0123456789") # 10개
 alphabet = list("abcdefghijklmnopqrstuvwxyz") # 26개
 special = list(" ") # 1개
 
-total = sorted(set(chosung + jungsung + jongsung + number + alphabet + special))
+total = sorted(set(chosung + jungsung + jongsung + number + alphabet + special)) # 중복 제거
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
+
 def detect_swear(timeline: list, words: str) -> list:
-    '''
-    - 욕설을 감지하는 모듈 \n
+    """타임라인과 텍스트를 바탕으로 욕설을 인식하는 모듈입니다. 
+
     @status `Scheduled` \\
-    @params `timeline=[[0, 1000], [1000, 2000] ...], words="안녕하세요"` \\
-    @returns `[[0, 1000], [3000, 4000] ...]` \\
-    @author `seu0313`
-    @since `2.0.0`
-    '''
+    @params `timeline=[[0, 1000], [1000, 2000] ...]` \\
+    @params `words="안녕하세요"` \\
+    @returns `[[0, 1000], [3000, 4000] ...]` """
+
     tk = Tokenizer(num_words=None, char_level=True, oov_token="UNK")
 
     # Create Char Dictionary
@@ -51,15 +51,14 @@ def detect_swear(timeline: list, words: str) -> list:
         print("Can't load model. Give me model!")
         return []
 
+
 def detect_predict(prediction: list) -> list:
-    '''
-    - 욕설 예측 모듈 \n
+    """예측된 수치를 바탕으로 욕설을 처리하는 모듈입니다.
+
     @status `Scheduled` \\
     @params `None` \\
-    @returns `None` \\
-    @author `seu0313`
-    @since `2.0.0`
-    '''
+    @returns `None` """
+
     swears = []
     for pred in prediction:
         if round(pred[1] == 1.0 and round(pred[0]) == 0.0):
@@ -75,15 +74,14 @@ def detect_predict(prediction: list) -> list:
 
     return swear_timeline
 
+
 def hangToJamo(hangul: str):
-    '''
-    - 한글을 자소단위로 분리 (초, 중, 종성) \n
+    """한글을 자소 단위(초, 중, 종성)로 분리하는 모듈입니다.
+
     @status `Accepted` \\
     @params `"안녕하세요"` \\
-    @returns `"ㅇㅏㄴㄴㅕㅇㅎㅏ_ㅅㅔ_ㅇㅛ_"` \\
-    @author `seu0313`
-    @since `2.0.0`
-    '''
+    @returns `"ㅇㅏㄴㄴㅕㅇㅎㅏ_ㅅㅔ_ㅇㅛ_"` """
+
     result = []
     for char in hangul:
         char_code = ord(char)
@@ -108,14 +106,12 @@ def hangToJamo(hangul: str):
 
 
 def jamoToHang(jamo: str):
-    '''
-    - 자소단위를 한글로 결합 (초, 중, 종성) \n
+    """자소 단위(초, 중, 종성)를 한글로 결합하는 모듈입니다.
+
     @status `Accepted` \\
     @params `"ㅇㅏㄴㄴㅕㅇㅎㅏ_ㅅㅔ_ㅇㅛ_"` \\
-    @returns `"안녕하세요"` \\
-    @author `seu0313`
-    @since `2.0.0`
-    '''
+    @returns `"안녕하세요"` """
+
     result, index = "", 0
     
     while index < len(jamo):
@@ -132,14 +128,13 @@ def jamoToHang(jamo: str):
 
     return result
     
+    
 def create_char_dict():
-    '''
-    - 자소 단위 사전 생성하는 모듈 \n
+    """자소 단위 사전을 생성하는 모듈입니다.
+
     @status `Accepted` \\
-    @returns `{"": 0, "1": 1 ... "UNK": 90}` \\
-    @author `seu0313`
-    @since `2.0.0`
-    '''
+    @returns `{" ": 1, "0": 2, "1": 3 ... "|": 89}` """
+
     char_dict, i = {}, 0
 
     for char in total:
@@ -149,3 +144,7 @@ def create_char_dict():
         char_dict[char] = i
 
     return char_dict
+
+
+# if __name__ == "__main__":
+#     print(create_char_dict())
