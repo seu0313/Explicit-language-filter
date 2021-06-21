@@ -21,6 +21,10 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# secret key json
+etri.json
+google.json
+
 # vscode
 .vscode/*
 
