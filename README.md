@@ -3,7 +3,6 @@
 <p>
     <img alt="Typescript" src="https://img.shields.io/badge/-Typescript-blue?logo=Typescript&logoColor=white"/>
     <img alt="React" src="https://img.shields.io/badge/-React-45b8d8?logo=react&logoColor=white"/>
-    <img alt="Express" src="https://img.shields.io/badge/-Express-green?logo=Express&logoColor=white"/>
     <img alt="Keras" src="https://img.shields.io/badge/-Keras-CB3837?logo=Keras&logoColor=white"/>
     <img alt="python" src="https://img.shields.io/badge/-Python-blue?logo=python&logoColor=white"/>
     <img alt="Django" src="https://img.shields.io/badge/-Django-darkgreen?logo=Django&logoColor=white"/>
