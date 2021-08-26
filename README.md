@@ -1,16 +1,17 @@
-# Bad-word-filter
+# Mung
 
 <p>
     <img alt="Typescript" src="https://img.shields.io/badge/-Typescript-blue?logo=Typescript&logoColor=white"/>
     <img alt="React" src="https://img.shields.io/badge/-React-45b8d8?logo=react&logoColor=white"/>
     <img alt="Keras" src="https://img.shields.io/badge/-Keras-CB3837?logo=Keras&logoColor=white"/>
-    <img alt="python" src="https://img.shields.io/badge/-Python-blue?logo=python&logoColor=white"/>
+    <img alt="Python" src="https://img.shields.io/badge/-Python-blue?logo=python&logoColor=white"/>
     <img alt="Django" src="https://img.shields.io/badge/-Django-darkgreen?logo=Django&logoColor=white"/>
 </p>
 
 ## 📚 Introduction
 
-영상의 오디오를 추출하여 필터링 후, 영상 소스에 다시 합쳐 출력하는 기능을 수행하는 개인 프로젝트입니다.
+`[1인 프로젝트]`
+영상이나 텍스트의 비속어를 필터링하여 출력해주는 Electron 앱
 
 ## 🛠️ Tech Stack
 
@@ -24,7 +25,9 @@
 
 ## 🔥 Results
 
-### - Core `NLP - CharCNN`
+### - Core
+
+> `NLP - CharCNN`
 
 <img width="800" alt="스크린샷 2020-12-03 오후 9 17 45 2" src="https://user-images.githubusercontent.com/38010141/101239495-45da7c00-372b-11eb-819c-6aee1f3b00ff.png">
 <img width="800" alt="스크린샷 2020-12-03 오후 9 17 45 4" src="https://user-images.githubusercontent.com/38010141/101239506-4ffc7a80-372b-11eb-96c7-ac9c16739662.png">
