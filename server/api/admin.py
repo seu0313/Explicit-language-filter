@@ -1,5 +1,5 @@
 from django.contrib import admin
-from api.models import Deep
+from api.models import Video, Post
 
 # Register your models here.
-admin.site.register(Deep)
+admin.site.register([Video, Post])
