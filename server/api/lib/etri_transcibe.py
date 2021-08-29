@@ -4,7 +4,7 @@ import json
 import base64
 import urllib3
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from django.conf import settings
 
 
 def transcribe_etri(audio_file_path: str):
@@ -14,7 +14,7 @@ def transcribe_etri(audio_file_path: str):
     @params `"~/src/python/temp2.wav"` \\
     @returns `Response data(str) || -1` """
 
-    etri_json_file = os.path.join(BASE_DIR, "deep/etri.json")
+    etri_json_file = os.path.join(settings.BASE_DIR, "env/etri.json")
     etri_key = json.loads(open(etri_json_file).read())
 
     access_key = etri_key["private_key"]
@@ -42,16 +42,15 @@ def transcribe_etri(audio_file_path: str):
             headers={"Content-Type": "application/json; charset=UTF-8"},
             body=json.dumps(request_json)
         )
-        response_json = json.loads(res.data.decode("utf-8"))
-        response = response_json['return_object']['recognized']
 
-    except:
-        response = response_json['reason']
+    except Exception as err:
+        print(err)
     
+    response_json = json.loads(res.data.decode("utf-8"))
+    
+    if not res:
+        response = response_json['return_object']['recognized']
+    else:
+        response = response_json['reason']
+
     return response
-
-
-if __name__ == "__main__":
-    audio_file_path = os.path.join(BASE_DIR, "src/python/hello.wav")
-    response = transcribe_etri(audio_file_path) 
-    print(response) # 안녕하세요 오늘도 멋진 하루 되세요
