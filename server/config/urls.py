@@ -18,13 +18,13 @@ from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
 from rest_framework import routers
-from api.views import UserViewSet, GroupViewSet, VideoViewSet, PostViewSet
+from api.views import *
 
 
 router = routers.DefaultRouter()
 router.register(r'users', UserViewSet)
 router.register(r'groups', GroupViewSet)
-router.register(r'video', VideoViewSet)
+router.register(r'media', MediaViewSet)
 router.register(r'post', PostViewSet)
 
 
