@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components";
-import theme from "../../styles/theme";
 import media from "../../styles/media";
 
 type AppLayoutProps = {
@@ -43,8 +42,8 @@ const SideContainer = styled.aside`
 `;
 
 const MainContainer = styled.main`
-  padding-left: 3rem;
-  padding-top: 4rem;
+  padding-left: 2rem;
+  padding-top: 3rem;
   margin-left: 14.25rem;
   padding-bottom: 3rem;
 `;
