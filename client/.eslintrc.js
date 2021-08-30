@@ -10,6 +10,7 @@ module.exports = {
     "prettier",
   ],
   rules: {
+    "no-unused-expressions": 0,
     "linebreak-style": 0,
     "import/prefer-default-export": 0,
     "prettier/prettier": 0,
@@ -18,7 +19,9 @@ module.exports = {
     "import/no-unresolved": 0,
     "import/no-extraneous-dependencies": 0, // 테스트 또는 개발환경을 구성하는 파일에서는 devDependency 사용을 허용
     "no-shadow": 0,
+    "@typescript-eslint/no-var-requires": 0,
     "react/jsx-props-no-spreading": "off",
+    "react/require-default-props": 0,
     "react/prop-types": 0,
     "react/jsx-filename-extension": [
       2,

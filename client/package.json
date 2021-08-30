@@ -1,12 +1,20 @@
 {
   "name": "client",
   "version": "2.0.0",
+  "author": "seu0313",
   "private": true,
-  "license": "MIT",
+  "main": "./public/electron.js",
+  "homepage": ".",
+  "license": "Apache License 2.0",
   "dependencies": {
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "electron": "^13.1.9",
+    "electron-is-dev": "^2.0.0",
+    "electron-log": "^4.4.1",
+    "electron-updater": "^4.3.9",
+    "recoil": "^0.4.0",
     "axios": "^0.21.1",
     "dotenv": "^10.0.0",
     "react": "^17.0.2",
@@ -36,7 +44,11 @@
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^3.4.0",
-    "prettier": "^2.3.0"
+    "prettier": "^2.3.0",
+    "concurrently": "^6.2.1",
+    "cross-env": "^7.0.3",
+    "electron-builder": "^22.11.7",
+    "wait-on": "^6.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -44,7 +56,17 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook -s public"
+    "build-storybook": "build-storybook -s public",
+    "clean": "rm -rf .cache build dist",
+    "electron": "concurrently \"cross-env ELECTRON_IS_DEV=1 BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
+    "electron:win": "SET ELECTRON_START_URL=http://localhost:3000 && yarn electron",
+    "electron:xos": "ELECTRON_START_URL=http://localhost:3000 yarn electron",
+    "prebuild:xos": "yarn clean",
+    "prebuild:win": "yarn clean",
+    "build:xos": "yarn build && electron-builder --mac",
+    "build:win32": "electron-builder --win --ia32",
+    "build:win64": "electron-builder --win --x64",
+    "build:win": "yarn build && yarn build:win32 && yarn build:win64"
   },
   "eslintConfig": {
     "extends": "react-app",
@@ -70,5 +92,43 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "build": {
+    "productName": "Mung",
+    "appId": "com.mung.electron",
+    "asar": true,
+    "publish": [
+      {
+        "provider": "generic",
+        "url": "https://github.com/seu0313/Mung"
+      }
+    ],
+    "mac": {
+      "target": [
+        "default"
+      ]
+    },
+    "dmg": {
+      "title": "Mung"
+    },
+    "win": {
+      "target": [
+        "nsis"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": false,
+      "createDesktopShortcut": true,
+      "perMachine": true,
+      "language": 1042,
+      "shortcutName": "Mung",
+      "artifactName": "Mung-${version}.${ext}",
+      "uninstallDisplayName": "Mung"
+    },
+    "directories": {
+      "buildResources": "./build/",
+      "output": "./dist/"
+    }
   }
 }

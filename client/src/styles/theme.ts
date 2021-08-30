@@ -15,14 +15,16 @@ const color = {
 };
 
 const size = {
-  mobile: "375px",
-  tablet: "768px",
-  labtop: "1024px",
-  desktop: "1440px",
-  customWidth: "343px",
+  mobile: 375,
+  tablet: 768,
+  labtop: 1024,
+  xlabtop: 1280,
+  desktop: 1440,
 };
 
-export default {
+const theme = {
   color,
   size,
 };
+
+export default theme;

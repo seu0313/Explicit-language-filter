@@ -3,8 +3,9 @@
     "target": "ES5",
     "lib": ["DOM", "DOM.Iterable", "ESNext"],
     "typeRoots": ["node_modules/@types", "src/types"],
-    "baseUrl": "src",
-    "module": "ESNext",
+    "rootDir": ".",
+    "outDir": "./build",
+    "module": "esnext",
     "jsx": "react-jsx",
     "allowJs": true,
     "skipLibCheck": true,
@@ -14,10 +15,10 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     "strict": true,
-    "noEmit": true,
     "sourceMap": true,
     "noFallthroughCasesInSwitch": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "noEmit": true
   },
   "exclude": ["node_modules"],
   "include": ["src/**/*"]
