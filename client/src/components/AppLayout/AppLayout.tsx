@@ -45,5 +45,6 @@ const MainContainer = styled.main`
   padding-left: 2rem;
   padding-top: 3rem;
   margin-left: 14.25rem;
+  margin-right: 2.25rem;
   padding-bottom: 3rem;
 `;
