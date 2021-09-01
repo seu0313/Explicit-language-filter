@@ -10,6 +10,7 @@ module.exports = {
     "prettier",
   ],
   rules: {
+    "react/button-has-type": 0,
     "no-unused-expressions": 0,
     "linebreak-style": 0,
     "import/prefer-default-export": 0,
