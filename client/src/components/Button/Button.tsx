@@ -18,39 +18,32 @@ export default function Button({
   disabled,
 }: ButtonProps): JSX.Element {
   return (
-    <ButtonContainer>
-      <button
-        type={type}
-        className={className}
-        style={style}
-        disabled={disabled}
-      >
-        {children}
-      </button>
-    </ButtonContainer>
+    <ButtonElement
+      type={type}
+      className={className}
+      style={style}
+      disabled={disabled}
+    >
+      {children}
+    </ButtonElement>
   );
 }
 
-const ButtonContainer = styled.div<ButtonProps>`
+const ButtonElement = styled.button<ButtonProps>`
   width: 20rem;
   height: 3rem;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-family: Arial, Helvetica, sans-serif;
+  font-weight: 500;
+  color: white;
+  background-color: ${theme.color.basicColor};
 
-  button {
-    width: 100%;
-    height: 100%;
-    cursor: pointer;
-    font-size: 1.1rem;
-    font-family: Arial, Helvetica, sans-serif;
-    font-weight: 500;
-    color: white;
-    background-color: ${theme.color.basicColor};
+  &:disabled {
+    background-color: ${theme.color.disabled};
+  }
 
-    &:disabled {
-      background-color: ${theme.color.disabled};
-    }
-
-    &:active {
-      background-color: ${theme.color.press};
-    }
+  &:active {
+    background-color: ${theme.color.press};
   }
 `;
